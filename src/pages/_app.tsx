@@ -1,6 +1,18 @@
-import '@/styles/globals.css'
-import type { AppProps } from 'next/app'
+import Head from "@/componets/head";
+import IntroText from "@/componets/intro_text";
+import "@/styles/landing.css";
+import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+  return (
+    <div className="App">
+      <Head />
+      <div className="body">
+        <IntroText />
+        <div className="main">
+          <Component {...pageProps} />
+        </div>
+      </div>
+    </div>
+  );
 }
