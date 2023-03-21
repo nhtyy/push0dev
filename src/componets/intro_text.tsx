@@ -4,7 +4,7 @@ export default function IntroText() {
       <h1>nuhhtyy.xyz</h1>
       <a href="/">home</a>
       <a href="/writing">writing</a>
-      <a href="/ooo">something else</a>
+      <a href="/contact">contact</a>
     </div>
   );
 }
