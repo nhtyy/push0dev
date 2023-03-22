@@ -11,7 +11,8 @@ const sections: Section[] = [
   {
     title: "Section 2",
     content: [
-      "Vestibulum consequat lacus tellus, eget vulputate augue aliquam eget. Quisque tincidunt vulputate tempus. Mauris luctus, sem eu ultrices tincidunt, justo nisl fringilla orci, a sodales nisi nisi sit amet sapien. Morbi rhoncus quis ex nec aliquam. Donec euismod semper urna id lacinia. Nulla ultrices, arcu eget molestie gravida, quam nulla aliquam urna, varius ultricies nisl augue id felis. Aliquam vulputate aliquet semper. Nam eleifend mollis tempus. Suspendisse nec orci magna. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Suspendisse auctor finibus orci, nec sollicitudin neque blandit eu. Aenean cursus urna quis aliquet suscipit. Proin rhoncus purus rhoncus, pellentesque justo ut, ultrices mauris.",
+      "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
+      "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
     ],
   },
   {
@@ -34,6 +35,7 @@ const sections: Section[] = [
         title: "Section 3.2",
         content: [
           "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
+          "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
         ],
       },
     ],
@@ -53,6 +55,13 @@ type Section = {
 type Post = {
   post_title: string;
   sections: Section[];
+};
+
+type TableOfContents = {
+  sections: {
+    title: string;
+    subsection_titles?: string[];
+  }[];
 };
 
 export default function Post(props: { post: Post }) {
@@ -100,9 +109,40 @@ function PostRenderer(post: Post) {
   return (
     <div style={{ paddingBottom: "10rem" }}>
       <h1 style={{ textAlign: "center" }}>{post.post_title}</h1>
+      <p>{JSON.stringify(extractTableOfContents(post))}</p>
       {post.sections.map((section) => renderSection(section))}
     </div>
   );
+}
+
+function extractTableOfContents(post: Post): TableOfContents {
+  const tableOfContents: TableOfContents = {
+    sections: [],
+  };
+
+  const extractSubsections = (section: Section): string[] => {
+    const subsectionTitles: string[] = [];
+
+    section.content.forEach((item) => {
+      if (typeof item !== "string") {
+        subsectionTitles.push(item.title);
+        subsectionTitles.push(...extractSubsections(item));
+      }
+    });
+
+    return subsectionTitles;
+  };
+
+  post.sections.forEach((section) => {
+    const subsections = extractSubsections(section);
+    const tocSection = {
+      title: section.title,
+      subsection_titles: subsections.length > 0 ? subsections : undefined,
+    };
+    tableOfContents.sections.push(tocSection);
+  });
+
+  return tableOfContents;
 }
 
 export async function getServerSideProps() {
