@@ -1,4 +1,6 @@
 import React from "react";
+import { useRef } from "react";
+import axios from "axios";
 
 // test sections
 const sections: Section[] = [
@@ -24,7 +26,7 @@ const sections: Section[] = [
         content: [
           "Morbi euismod at nunc quis placerat. Nullam ac elementum tortor, id feugiat tortor. Donec aliquam risus est. Etiam in urna sit amet arcu porttitor feugiat. Morbi eleifend ante sodales dapibus tincidunt. Integer dapibus iaculis quam et venenatis. Ut tincidunt massa vel euismod placerat. Nullam gravida vel eros vitae sodales. Maecenas nec varius velit. Donec urna metus, vestibulum ut urna nec, tempor fringilla massa. Vestibulum lacinia sed nibh at aliquet. Mauris fermentum a enim a semper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin vestibulum sem id turpis rutrum luctus. In metus arcu, suscipit ac fermentum et, condimentum at nunc.",
           {
-            title: "Section 3.2.1",
+            title: "Section 3.1.1",
             content: [
               "Sed et augue dui. Praesent non pulvinar ipsum. Nunc porta aliquet sapien, sit amet euismod risus commodo et. Suspendisse a luctus tellus. Curabitur laoreet ullamcorper aliquam. Curabitur hendrerit ipsum tellus, eu euismod quam luctus sed. Praesent rutrum, metus quis mollis semper, augue mauris dapibus mauris, tincidunt tincidunt felis nunc nec diam. Fusce vehicula viverra turpis, ac lacinia diam pharetra sed. Nulla facilisi. Nulla ut massa mollis, elementum enim at, malesuada lorem. Nullam iaculis, tellus eu aliquam varius, enim justo tincidunt elit, non varius elit dui eget risus. Suspendisse bibendum tellus a felis ullamcorper ultrices. Donec at vestibulum sem. In sapien odio, cursus vitae varius id, sollicitudin eget dui.",
             ],
@@ -68,15 +70,16 @@ export default function Post(props: { post: Post }) {
   return PostRenderer(props.post);
 }
 
-/**
- *
- * @param section the section object
- * @param depth how many levels deep the section is in other sections
- * @returns
- */
-function renderSection(section: Section, depth: number = 0) {
+function renderSection(
+  section: Section,
+  depth: number = 0,
+  sectionRefs: { [key: string]: any }
+) {
+  const sectionRef = useRef(null);
+  sectionRefs[section.title] = sectionRef;
+
   return (
-    <div key={section.title}>
+    <div key={section.title} ref={sectionRef}>
       <h3
         style={{
           textAlign: "left",
@@ -84,7 +87,7 @@ function renderSection(section: Section, depth: number = 0) {
           textDecoration: "underline",
         }}
       >
-        {"• " + section.title}
+        {section.title}
       </h3>
       {section.content.map((contentItem) =>
         typeof contentItem === "string" ? (
@@ -93,24 +96,69 @@ function renderSection(section: Section, depth: number = 0) {
               textAlign: "left",
               marginLeft: (depth + 1).toString() + "rem",
             }}
-            key={"contentItem"}
+            key={Math.random()}
           >
             {contentItem}
           </p>
         ) : (
-          renderSection(contentItem, depth + 1)
+          renderSection(contentItem, depth + 1, sectionRefs)
         )
       )}
     </div>
   );
 }
 
+function scrollToRef(ref: React.MutableRefObject<HTMLInputElement>) {
+  console.log(ref.current);
+  ref.current.scrollIntoView({ behavior: "smooth" });
+}
+
+function TableOfContentsRenderer(
+  toc: TableOfContents,
+  sectionRefs: { [key: string]: React.MutableRefObject<HTMLInputElement> }
+) {
+  return (
+    <div style={{ textAlign: "left" }}>
+      <ol>
+        {toc.sections.map((section) => (
+          <li key={section.title}>
+            <a
+              href="#"
+              onClick={() => scrollToRef(sectionRefs[section.title])}
+              style={{ textDecoration: "none", cursor: "pointer" }}
+            >
+              {section.title}
+            </a>
+            {section.subsection_titles && (
+              <ul>
+                {section.subsection_titles.map((subsection) => (
+                  <li key={subsection}>
+                    <a
+                      onClick={() => scrollToRef(sectionRefs[subsection])}
+                      style={{ textDecoration: "none", cursor: "pointer" }}
+                    >
+                      {subsection}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+      </ol>
+    </div>
+  );
+}
+
 function PostRenderer(post: Post) {
+  const toc = extractTableOfContents(post);
+
+  let sectionRefs = {};
   return (
     <div style={{ paddingBottom: "10rem" }}>
       <h1 style={{ textAlign: "center" }}>{post.post_title}</h1>
-      <p>{JSON.stringify(extractTableOfContents(post))}</p>
-      {post.sections.map((section) => renderSection(section))}
+      {TableOfContentsRenderer(toc, sectionRefs)}
+      {post.sections.map((section) => renderSection(section, 0, sectionRefs))}
     </div>
   );
 }
