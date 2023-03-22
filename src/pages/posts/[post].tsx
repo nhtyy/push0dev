@@ -1,61 +1,15 @@
 import React from "react";
 import { useRef } from "react";
-import axios from "axios";
-
-// test sections
-const sections: Section[] = [
-  {
-    title: "Section 1",
-    content: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat eros. Donec faucibus velit id est lobortis sagittis. Ut non molestie quam. Morbi gravida pellentesque dignissim. Curabitur vitae arcu placerat, mattis mi at, viverra massa. Nam fringilla tristique neque non molestie. Morbi semper sem nisi, ut feugiat arcu pharetra vel. Morbi erat purus, dictum eu aliquet at, laoreet lobortis mauris. Aliquam mollis risus lorem, rhoncus pellentesque magna eleifend at. Curabitur a imperdiet diam. Maecenas commodo urna ac lorem sodales, in porta dui aliquet. Aenean lacinia, nunc vel commodo pellentesque, augue urna volutpat risus, vel efficitur nibh justo eu mauris. Phasellus quam lacus, pellentesque a libero et, eleifend ornare ante. In gravida massa arcu, quis laoreet metus auctor at.",
-    ],
-  },
-  {
-    title: "Section 2",
-    content: [
-      "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
-      "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
-    ],
-  },
-  {
-    title: "Section 3",
-    content: [
-      "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi era",
-      {
-        title: "Section 3.1",
-        content: [
-          "Morbi euismod at nunc quis placerat. Nullam ac elementum tortor, id feugiat tortor. Donec aliquam risus est. Etiam in urna sit amet arcu porttitor feugiat. Morbi eleifend ante sodales dapibus tincidunt. Integer dapibus iaculis quam et venenatis. Ut tincidunt massa vel euismod placerat. Nullam gravida vel eros vitae sodales. Maecenas nec varius velit. Donec urna metus, vestibulum ut urna nec, tempor fringilla massa. Vestibulum lacinia sed nibh at aliquet. Mauris fermentum a enim a semper. Interdum et malesuada fames ac ante ipsum primis in faucibus. Proin vestibulum sem id turpis rutrum luctus. In metus arcu, suscipit ac fermentum et, condimentum at nunc.",
-          {
-            title: "Section 3.1.1",
-            content: [
-              "Sed et augue dui. Praesent non pulvinar ipsum. Nunc porta aliquet sapien, sit amet euismod risus commodo et. Suspendisse a luctus tellus. Curabitur laoreet ullamcorper aliquam. Curabitur hendrerit ipsum tellus, eu euismod quam luctus sed. Praesent rutrum, metus quis mollis semper, augue mauris dapibus mauris, tincidunt tincidunt felis nunc nec diam. Fusce vehicula viverra turpis, ac lacinia diam pharetra sed. Nulla facilisi. Nulla ut massa mollis, elementum enim at, malesuada lorem. Nullam iaculis, tellus eu aliquam varius, enim justo tincidunt elit, non varius elit dui eget risus. Suspendisse bibendum tellus a felis ullamcorper ultrices. Donec at vestibulum sem. In sapien odio, cursus vitae varius id, sollicitudin eget dui.",
-            ],
-          },
-        ],
-      },
-      {
-        title: "Section 3.2",
-        content: [
-          "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
-          "Phasellus eu nibh vel justo porta tincidunt ut vitae purus. Donec vitae congue metus, sed ultricies elit. Sed euismod maximus varius. Morbi quis tempor est, non laoreet felis. Nunc facilisis sapien ut iaculis rhoncus. Duis elementum rhoncus mauris vel ultrices. Praesent porta feugiat enim, ac ultricies leo semper sit amet. Suspendisse aliquet augue et urna euismod, in pretium nibh elementum. Pellentesque aliquet, elit id ultrices tristique, massa est facilisis quam, vel aliquet purus erat eu augue. Sed commodo nisl vitae interdum gravida. Praesent semper semper sagittis. Fusce et nisi erat.",
-        ],
-      },
-    ],
-  },
-];
-
-const post: Post = {
-  post_title: "Test Post",
-  sections: sections,
-};
+import { getPosts } from "@/services/getPosts";
 
 type Section = {
   title: string;
   content: (string | Section)[];
 };
 
-type Post = {
+export type Post = {
   post_title: string;
+  slug: string;
   sections: Section[];
 };
 
@@ -193,22 +147,11 @@ function extractTableOfContents(post: Post): TableOfContents {
   return tableOfContents;
 }
 
-export async function getServerSideProps() {
-  // fetch posts, if not undefined, return props else return notFound
-
-  return {
-    props: {
-      post: post,
-    },
-  };
-  // if (post === "about") {
-  //   return {
-  //     // returns the default 404 page with a status code of 404
-  //     notFound: true,
-  //   };
-  // } else {
-  //   return {
-  //     props: {},
-  //   };
-  // }
+export async function getServerSideProps(context: any) {
+  const posts = await getPosts();
+  const slug = context.params.post;
+  const maybe_post = posts.get(slug);
+  return maybe_post === undefined
+    ? { notFound: true }
+    : { props: { post: maybe_post } };
 }

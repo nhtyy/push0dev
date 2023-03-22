@@ -1,5 +1,6 @@
 {
   "post_title": "Test Post #1",
+  "slug": "test-post-1",
   "sections": [
     {
       "title": "Section 1",
