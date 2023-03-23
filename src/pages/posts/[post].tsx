@@ -61,36 +61,6 @@ function ContentItem({ content, depth }: { content: string; depth: number }) {
   );
 }
 
-// function renderSection(
-//   section: Section,
-//   depth: number = 0,
-//   sectionRefs: { [key: string]: any }
-// ) {
-//   const sectionRef = useRef(null);
-//   sectionRefs[section.title] = sectionRef;
-
-//   return (
-//     <div key={section.title} ref={sectionRef}>
-//       <h3
-//         style={{
-//           textAlign: "left",
-//           marginLeft: depth.toString() + "rem",
-//           textDecoration: "underline",
-//         }}
-//       >
-//         {section.title}
-//       </h3>
-//       {section.content.map((contentItem, index) =>
-//         typeof contentItem === "string" ? (
-//           <ContentItem key={index} content={contentItem} depth={depth} />
-//         ) : (
-//           renderSection(contentItem, depth + 1, sectionRefs)
-//         )
-//       )}
-//     </div>
-//   );
-// }
-
 function renderSection(
   section: Section,
   depth: number = 0,
@@ -105,7 +75,7 @@ function renderSection(
   };
 
   return (
-    <div key={section.title} ref={sectionRef}>
+    <div key={section.title}>
       <h3
         style={{
           textAlign: "left",
@@ -114,6 +84,7 @@ function renderSection(
           cursor: "pointer",
         }}
         onClick={toggleCollapse}
+        ref={sectionRef}
       >
         {isCollapsed ? "[+] " + section.title : section.title}
       </h3>
@@ -138,6 +109,7 @@ function renderSection(
 }
 
 function scrollToRef(ref: React.MutableRefObject<HTMLInputElement>) {
+  console.log(ref.current);
   ref.current.scrollIntoView({ behavior: "smooth" });
 }
 
@@ -151,7 +123,6 @@ function TableOfContentsRenderer(
         {toc.sections.map((section) => (
           <li key={section.title}>
             <a
-              href="#"
               onClick={() => scrollToRef(sectionRefs[section.title])}
               style={{ textDecoration: "none", cursor: "pointer" }}
             >

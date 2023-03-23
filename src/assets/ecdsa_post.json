@@ -1,11 +1,11 @@
 {
   "post_title": "ECDSA",
-  "slug": "ecdsa-evm",
+  "slug": "ecdsa",
   "sections": [
     {
       "title": "Introduction",
       "content": [
-        "Elliptic curve cryptography (ECC) has become a popular choice for secure communication due to its compact key sizes and efficient operations."
+        "Elliptic curve cryptography (ECC) has become a popular choice for secure communication due to its compact key sizes and efficient operations. Please note, im not a mathematician or a cryptographer in practice, if you see something wrong, please let me know :)"
       ]
     },
     {
@@ -33,10 +33,10 @@
             {
               "title": "2.2 Key Generation",
               "content": [
-                "- Choose a generator point $$G$$ from the elliptic curve $$E(F)$$, where $$F$$ is a field with prime order $$P$$.",
-                "- The generator point $$G$$ generates a cyclic subgroup of order $$n$$, denoted by $$|G| = n$$.",
-                "- The elliptic curve has order $$|E(F)| = c$$, which represents the total number of points on the curve.",
-                "- The user selects a secret key $$x \\in [1, n-1]$$ and computes the public key $$X = xG$$ using scalar multiplication."
+                "Choose a generator point $$G$$ from the elliptic curve $$E(F)$$, where $$F$$ is a field with prime order $$P$$.",
+                "The generator point $$G$$ generates a cyclic subgroup of order $$n$$, denoted by $$|G| = n$$.",
+                "The elliptic curve has order $$|E(F)| = c$$, which represents the total number of points on the curve.",
+                "The user selects a secret key $$x \\in [1, n-1]$$ and computes the public key $$X = xG$$ using scalar multiplication."
               ]
             },
             {
@@ -53,21 +53,16 @@
             {
               "title": "2.4 Signature Verification",
               "content": [
-                "- Ensure $$r, s \\in \\mathbb{Z}_n$$ and $$X \\neq \\theta$$.",
-                "- Calculate $$u_1 = es^{-1}$$ and $$u_2 = rs^{-1}$$.",
-                "- Check if $$r_v = r$$, where:",
-                {
-                  "title": "",
-                  "content": [
-                    "- $$R_v = u_1G + u_2X$$",
-                    "- $$R_v = (u_1 + u_2x)G$$",
-                    "- $$R_v = (es^{-1} + s^{-1}rx)G$$",
-                    "- $$R_v = s^{-1}(e + rx)G$$",
-                    "- $$R_v = (k^{-1})^{-1}(e + rx)^{-1}(e + rx)G$$",
-                    "- $$R_v = kG = (x_{R_v}, y_{R_v})$$",
-                    "- $$r_v = x_{R_v} \\mod n$$"
-                  ]
-                }
+                "Ensure $$r, s \\in \\mathbb{Z}_n$$ and $$X \\neq \\theta$$.",
+                "Calculate $$u_1 = es^{-1}$$ and $$u_2 = rs^{-1}$$.",
+                "Check if $$r_v = r$$, where:",
+                "- $$R_v = u_1G + u_2X$$",
+                "- $$R_v = (u_1 + u_2x)G$$",
+                "- $$R_v = (es^{-1} + s^{-1}rx)G$$",
+                "- $$R_v = s^{-1}(e + rx)G$$",
+                "- $$R_v = (k^{-1})^{-1}(e + rx)^{-1}(e + rx)G$$",
+                "- $$R_v = kG = (x_{R_v}, y_{R_v})$$",
+                "- $$r_v = x_{R_v} \\mod n$$"
               ]
             }
           ]
@@ -108,8 +103,8 @@
         {
           "title": "4.1: Malleability of ECDSA Signatures",
           "content": [
-            "ECDSA signatures are malleable, meaning that for a given message $$M$$ and public key $$X$$, it is possible to find a second valid signature that can be verified. This property can lead to security issues if not properly addressed. Here are some key points to consider:",
-            "You can find a second valid signature $$\\sigma'$$ for the public key $$X$$ and message $$M$$, where both signatures $$(r, s)$$ and $$(r, -s \\mod n)$$ are valid for $$X$$ and $$M$$, with $$s \\in \\mathbb{Z}_n$$.",
+            "ECDSA signatures are malleable, meaning that for a given message $$M$$ and public key $$X$$, it is possible to find a second valid signature.",
+            "You can find a second valid signature $$\\sigma'$$ for the public key $$X$$ and message $$M$$, where both signatures $$(r, s)$$ and $$(r, -s \\mod n)$$ are valid for $$X$$ and $$M$$.",
             "For a given $$\\sigma$$, we can find a random public key $$X'$$ that verifies for an arbitrary message $$M'$$ by tweaking the message."
           ]
         },
