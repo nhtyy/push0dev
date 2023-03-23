@@ -1,6 +1,14 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useRef } from "react";
 import { getPosts } from "@/services/getPosts";
+import { remark } from "remark";
+import Head from "next/head";
+import html from "remark-html";
+import remarkMath from "remark-math";
+import rehypeKatex from "rehype-katex";
+import remarkRehype from "remark-rehype";
+import rehypeStringify from "rehype-stringify";
+import remarkParse from "remark-parse";
 
 type Section = {
   title: string;
@@ -20,9 +28,68 @@ type TableOfContents = {
   }[];
 };
 
-export default function Post(props: { post: Post }) {
+export default function Page(props: { post: Post }) {
   return PostRenderer(props.post);
 }
+
+function ContentItem({ content, depth }: { content: string; depth: number }) {
+  const [renderedContent, setRenderedContent] = useState("");
+
+  useEffect(() => {
+    const processContent = async () => {
+      const result = await remark()
+        .use(remarkParse)
+        .use(remarkMath)
+        .use(remarkRehype)
+        .use(rehypeKatex)
+        .use(rehypeStringify)
+        .process(content);
+      setRenderedContent(result.toString());
+    };
+
+    processContent().catch(console.error);
+  }, [content]);
+
+  return (
+    <div
+      style={{
+        textAlign: "left",
+        marginLeft: (depth + 1).toString() + "rem",
+      }}
+      dangerouslySetInnerHTML={{ __html: renderedContent }}
+    />
+  );
+}
+
+// function renderSection(
+//   section: Section,
+//   depth: number = 0,
+//   sectionRefs: { [key: string]: any }
+// ) {
+//   const sectionRef = useRef(null);
+//   sectionRefs[section.title] = sectionRef;
+
+//   return (
+//     <div key={section.title} ref={sectionRef}>
+//       <h3
+//         style={{
+//           textAlign: "left",
+//           marginLeft: depth.toString() + "rem",
+//           textDecoration: "underline",
+//         }}
+//       >
+//         {section.title}
+//       </h3>
+//       {section.content.map((contentItem, index) =>
+//         typeof contentItem === "string" ? (
+//           <ContentItem key={index} content={contentItem} depth={depth} />
+//         ) : (
+//           renderSection(contentItem, depth + 1, sectionRefs)
+//         )
+//       )}
+//     </div>
+//   );
+// }
 
 function renderSection(
   section: Section,
@@ -30,7 +97,12 @@ function renderSection(
   sectionRefs: { [key: string]: any }
 ) {
   const sectionRef = useRef(null);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   sectionRefs[section.title] = sectionRef;
+
+  const toggleCollapse = () => {
+    setIsCollapsed(!isCollapsed);
+  };
 
   return (
     <div key={section.title} ref={sectionRef}>
@@ -39,31 +111,33 @@ function renderSection(
           textAlign: "left",
           marginLeft: depth.toString() + "rem",
           textDecoration: "underline",
+          cursor: "pointer",
+        }}
+        onClick={toggleCollapse}
+      >
+        {isCollapsed ? "[+] " + section.title : section.title}
+      </h3>
+      <div
+        style={{
+          maxHeight: isCollapsed ? "0" : "2000px",
+          opacity: isCollapsed ? "0" : "1",
+          overflow: "hidden",
+          transition: "max-height 0.5s ease-in-out, opacity 0.5s ease-in-out",
         }}
       >
-        {section.title}
-      </h3>
-      {section.content.map((contentItem) =>
-        typeof contentItem === "string" ? (
-          <p
-            style={{
-              textAlign: "left",
-              marginLeft: (depth + 1).toString() + "rem",
-            }}
-            key={Math.random()}
-          >
-            {contentItem}
-          </p>
-        ) : (
-          renderSection(contentItem, depth + 1, sectionRefs)
-        )
-      )}
+        {section.content.map((contentItem, index) =>
+          typeof contentItem === "string" ? (
+            <ContentItem key={index} content={contentItem} depth={depth} />
+          ) : (
+            renderSection(contentItem, depth + 1, sectionRefs)
+          )
+        )}
+      </div>
     </div>
   );
 }
 
 function scrollToRef(ref: React.MutableRefObject<HTMLInputElement>) {
-  console.log(ref.current);
   ref.current.scrollIntoView({ behavior: "smooth" });
 }
 
@@ -73,7 +147,7 @@ function TableOfContentsRenderer(
 ) {
   return (
     <div style={{ textAlign: "left" }}>
-      <ol>
+      <ul style={{ listStyle: "none" }}>
         {toc.sections.map((section) => (
           <li key={section.title}>
             <a
@@ -84,7 +158,7 @@ function TableOfContentsRenderer(
               {section.title}
             </a>
             {section.subsection_titles && (
-              <ul>
+              <ul style={{ listStyle: "none" }}>
                 {section.subsection_titles.map((subsection) => (
                   <li key={subsection}>
                     <a
@@ -99,7 +173,7 @@ function TableOfContentsRenderer(
             )}
           </li>
         ))}
-      </ol>
+      </ul>
     </div>
   );
 }
@@ -110,6 +184,14 @@ function PostRenderer(post: Post) {
   let sectionRefs = {};
   return (
     <div style={{ paddingBottom: "10rem" }}>
+      <Head>
+        <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
+          integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
+          crossOrigin="anonymous"
+        />
+      </Head>
       <h1 style={{ textAlign: "center" }}>{post.post_title}</h1>
       {TableOfContentsRenderer(toc, sectionRefs)}
       {post.sections.map((section) => renderSection(section, 0, sectionRefs))}

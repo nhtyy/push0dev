@@ -48,9 +48,11 @@ body {
 }
 
 .about {
-  /* background-color: white; */
   margin-top: 1vh;
   text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5vw;
 }
 
 .about-list > li {
@@ -61,11 +63,11 @@ body {
   hyphens: manual;
 }
 
-.about-tag {
+/* .about-tag {
   position: relative;
   top: 1vh;
-  left: 14vw;
-}
+  left: 10vw;
+} */
 
 a {
   color: black;

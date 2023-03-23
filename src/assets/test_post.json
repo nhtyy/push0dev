@@ -5,7 +5,7 @@
     {
       "title": "Section 1",
       "content": [
-        "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat eros. Donec faucibus velit id est lobortis sagittis. Ut non molestie quam. Morbi gravida pellentesque dignissim. Curabitur vitae arcu placerat, mattis mi at, viverra massa. Nam fringilla tristique neque non molestie. Morbi semper sem nisi, ut feugiat arcu pharetra vel. Morbi erat purus, dictum eu aliquet at, laoreet lobortis mauris. Aliquam mollis risus lorem, rhoncus pellentesque magna eleifend at. Curabitur a imperdiet diam. Maecenas commodo urna ac lorem sodales, in porta dui aliquet. Aenean lacinia, nunc vel commodo pellentesque, augue urna volutpat risus, vel efficitur nibh justo eu mauris. Phasellus quam lacus, pellentesque a libero et, eleifend ornare ante. In gravida massa arcu, quis laoreet metus auctor at."
+        "**Lorem** $$x \\in \\mathbb{Z}$$ ipsum dolor sit amet, consectetur adipiscing elit. Donec at erat eros. Donec faucibus velit id est lobortis sagittis. Ut non molestie quam. Morbi gravida pellentesque dignissim. Curabitur vitae arcu placerat, mattis mi at, viverra massa. Nam fringilla tristique neque non molestie. Morbi semper sem nisi, ut feugiat arcu pharetra vel. Morbi erat purus, dictum eu aliquet at, laoreet lobortis mauris. Aliquam mollis risus lorem, rhoncus pellentesque magna eleifend at. Curabitur a imperdiet diam. Maecenas commodo urna ac lorem sodales, in porta dui aliquet. Aenean lacinia, nunc vel commodo pellentesque, augue urna volutpat risus, vel efficitur nibh justo eu mauris. Phasellus quam lacus, pellentesque a libero et, eleifend ornare ante. In gravida massa arcu, quis laoreet metus auctor at."
       ]
     },
     {

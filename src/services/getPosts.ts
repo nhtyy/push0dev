@@ -1,8 +1,9 @@
 import TestPost from "../assets/test_post.json";
+import ECDSAPost from "../assets/ecdsa_post.json";
 import { Post } from "../pages/posts/[post]";
 
 export const _getPosts = async () => {
-  return [TestPost] as Post[];
+  return [TestPost, ECDSAPost] as Post[];
 };
 
 export async function getPosts(): Promise<Map<string, Post>> {
