@@ -5,9 +5,9 @@ import { PostList } from "@/componets/post_list";
 export default function Home({ posts }: { posts: Post[] }) {
   return (
     <div>
-      <h3>Writing</h3>
+      <h2>Writing</h2>
       <PostList posts={posts} />
-      <h3>Open Source Work</h3>
+      <h2>Open Source Work</h2>
     </div>
   );
 }

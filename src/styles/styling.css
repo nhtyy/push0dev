@@ -40,9 +40,21 @@ body {
   border-top: 0.5vh solid black;
 }
 
+.about {
+  text-align: left;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  font-size: large;
+}
+
 @media (max-width: 767px) {
   .content {
     width: 100%;
+  }
+
+  .about {
+    width: 80%;
   }
 }
 
@@ -51,13 +63,6 @@ body {
   top: 10vh;
   justify-content: center;
   text-align: center;
-}
-
-.about {
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-  width: 60%;
 }
 
 .hover-red:hover {
