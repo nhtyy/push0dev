@@ -1,6 +1,6 @@
 import Head from "@/componets/head";
 import IntroText from "@/componets/intro_text";
-import "@/styles/landing.css";
+import "@/styles/styling.css";
 import type { AppProps } from "next/app";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head />
       <div className="body">
         <IntroText />
-        <div className="main">
+        <div className="content">
           <Component {...pageProps} />
         </div>
       </div>

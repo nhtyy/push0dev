@@ -19,7 +19,10 @@
         "- Point Addition: Given two points $$P$$ and $$Q$$ on the curve, we can define their sum, $$R = P + Q$$, as the point resulting from the intersection of the curve and the line through $$P$$ and $$Q$$. If $$P$$ and $$Q$$ are vertically aligned, their sum is defined as the point at infinity $$\\theta$$, which serves as the identity element.",
         "- Scalar Multiplication: Given a point $$P$$ on the curve and an integer $$k$$, scalar multiplication is defined as the repeated addition of the point $$P$$ to itself $$k$$ times: $$kP = P + P + \\cdots + P$$ (k times).",
         "- Identity Element: The identity element, denoted as $$\\theta$$, is a special point that behaves like the number zero in traditional arithmetic. When adding any point $$P$$ to the identity element, the result is the same point $$P$$: $$P + \\theta = P$$.",
-        "- Additive Inverse: For any point $$A = (a_1, a_2)$$ on the curve, its additive inverse $$-A$$ is the point that satisfies the equation $$A + (-A) = \\theta$$. The additive inverse can be found as $$-A = (a_1, -a_2)$$. In the context of the finite field $$F$$, this means that $$-A = (a_1, p - a_2)$$."
+        "- Additive Inverse: For any point $$A = (a_1, a_2)$$ on the curve, its additive inverse $$-A$$ is the point that satisfies the equation $$A + (-A) = \\theta$$. The additive inverse can be found as $$-A = (a_1, -a_2)$$. In the context of the finite field $$F$$, this means that $$-A = (a_1, p - a_2)$$.",
+        {
+          "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/ECClines.svg/2880px-ECClines.svg.png"
+        }
       ]
     },
     {

@@ -1,8 +1,11 @@
-export default function ooo() {
+export default function Contact() {
   return (
     <p>
-      building something cool?{" "}
-      <a href="mailto:mail@nuhhtyy.xyz"> mail@nuhhtyy.xyz</a>
+      doing something cool?{" "}
+      <a href="mailto:mail@nuhhtyy.xyz" className="hover-blue">
+        {" "}
+        mail@nuhhtyy.xyz
+      </a>
     </p>
   );
 }

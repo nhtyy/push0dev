@@ -4,16 +4,29 @@ import { getPosts } from "@/services/getPosts";
 import { remark } from "remark";
 import Head from "next/head";
 import html from "remark-html";
+import remarkImages from "remark-images";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 
+type Image = {
+  url: string;
+};
+
 type Section = {
   title: string;
-  content: (string | Section)[];
+  content: (string | Section | Image)[];
 };
+
+function isImage(content: any): content is Image {
+  return (content as Image).url !== undefined;
+}
+
+function isSection(content: any): content is Section {
+  return (content as Section).title !== undefined;
+}
 
 export type Post = {
   post_title: string;
@@ -43,6 +56,7 @@ function ContentItem({ content, depth }: { content: string; depth: number }) {
         .use(remarkRehype)
         .use(rehypeKatex)
         .use(rehypeStringify)
+        .use(remarkImages)
         .process(content);
       setRenderedContent(result.toString());
     };
@@ -83,6 +97,7 @@ function renderSection(
           textDecoration: "underline",
           cursor: "pointer",
         }}
+        className={"hover-blue"}
         onClick={toggleCollapse}
         ref={sectionRef}
       >
@@ -96,13 +111,26 @@ function renderSection(
           transition: "max-height 0.5s ease-in-out, opacity 0.5s ease-in-out",
         }}
       >
-        {section.content.map((contentItem, index) =>
-          typeof contentItem === "string" ? (
-            <ContentItem key={index} content={contentItem} depth={depth} />
-          ) : (
-            renderSection(contentItem, depth + 1, sectionRefs)
-          )
-        )}
+        {section.content.map((contentItem, index) => {
+          if (typeof contentItem === "string") {
+            return (
+              <ContentItem key={index} content={contentItem} depth={depth} />
+            );
+          } else if (isImage(contentItem)) {
+            return (
+              <img
+                key={index}
+                src={contentItem.url}
+                style={{ maxWidth: "100%" }}
+              />
+            );
+          } else if (isSection(contentItem)) {
+            return renderSection(contentItem, depth + 1, sectionRefs);
+          } else {
+            console.log("Section Rendering Error: Unknown content item type");
+            return null;
+          }
+        })}
       </div>
     </div>
   );
@@ -121,10 +149,14 @@ function TableOfContentsRenderer(
     <div style={{ textAlign: "left" }}>
       <ul style={{ listStyle: "none" }}>
         {toc.sections.map((section) => (
-          <li key={section.title}>
+          <li key={section.title} style={{ paddingTop: ".5rem" }}>
             <a
               onClick={() => scrollToRef(sectionRefs[section.title])}
-              style={{ textDecoration: "none", cursor: "pointer" }}
+              style={{
+                textDecoration: "underline",
+                cursor: "pointer",
+              }}
+              className="hover-blue"
             >
               {section.title}
             </a>
@@ -134,7 +166,11 @@ function TableOfContentsRenderer(
                   <li key={subsection}>
                     <a
                       onClick={() => scrollToRef(sectionRefs[subsection])}
-                      style={{ textDecoration: "none", cursor: "pointer" }}
+                      style={{
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                      }}
+                      className="hover-blue"
                     >
                       {subsection}
                     </a>
@@ -179,7 +215,7 @@ function extractTableOfContents(post: Post): TableOfContents {
     const subsectionTitles: string[] = [];
 
     section.content.forEach((item) => {
-      if (typeof item !== "string") {
+      if (isSection(item)) {
         subsectionTitles.push(item.title);
         subsectionTitles.push(...extractSubsections(item));
       }

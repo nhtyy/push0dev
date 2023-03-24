@@ -1,14 +1,15 @@
 export default function Head() {
+  const head_links: { title: string; url: string }[] = [
+    { title: "twitter", url: "https://twitter.com/nuhhtyy" },
+    { title: "github", url: "https://github.com/nuhhtyy" },
+  ];
   return (
-    <div className="head">
-      <div className="header-links">
-        <a href="https://twitter.com/nuhhtyy" style={{ padding: ".5vw" }}>
-          twitter
+    <div className="header-links">
+      {head_links.map(({ title, url }) => (
+        <a href={url} style={{ padding: ".5vw" }} className={"hover-blue"}>
+          {title}
         </a>
-        <a href="https://github.com/nuhhtyy" style={{ padding: ".5vw" }}>
-          github
-        </a>
-      </div>
+      ))}
     </div>
   );
 }
