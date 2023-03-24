@@ -137,7 +137,6 @@ function renderSection(
 }
 
 function scrollToRef(ref: React.MutableRefObject<HTMLInputElement>) {
-  console.log(ref.current);
   ref.current.scrollIntoView({ behavior: "smooth" });
 }
 

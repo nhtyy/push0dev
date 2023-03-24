@@ -5,7 +5,7 @@ export function PostList({ posts }: { posts: Post[] }) {
   return (
     <ul style={{ listStyle: "none", paddingLeft: "0" }}>
       {posts.map((post) => (
-        <li style={{ paddingTop: ".3rem" }}>
+        <li key={post.post_title} style={{ paddingTop: ".3rem" }}>
           <a href={`/posts/${post.slug}`} className={"hover-blue"}>
             {post.post_title}
           </a>

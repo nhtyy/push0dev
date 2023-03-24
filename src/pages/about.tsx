@@ -3,7 +3,7 @@ export default function About() {
     <div className="about">
       <h2 className="about-tag">about me</h2>
       <h4 className="about-text" style={{ fontWeight: "normal" }}>
-        I'm a 21 yo software engineer and cryptography enjoyer currently working
+        Im a 21 yo software engineer and cryptography enjoyer currently working
         on blockchain stuff at <a href="https://alongside.xyz">Alongside</a>. I
         enjoy working on abstract systems and things related to distributed
         systems in general. Here you will find (potentialy incoherent) writings

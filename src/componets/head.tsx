@@ -6,7 +6,12 @@ export default function Head() {
   return (
     <div className="header-links">
       {head_links.map(({ title, url }) => (
-        <a href={url} style={{ padding: ".5vw" }} className={"hover-blue"}>
+        <a
+          key={title}
+          href={url}
+          style={{ padding: ".5vw" }}
+          className={"hover-blue"}
+        >
           {title}
         </a>
       ))}
