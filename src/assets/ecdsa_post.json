@@ -112,7 +112,7 @@
           ]
         },
         {
-          "title": "4.2: How the value of k affect signatures",
+          "title": "4.2: How the value of k affects signatures",
           "content": [
             "One message $$M$$ and one private key $$X$$ can have many different signatures $$\\sigma[]$$, as the choice of $$k$$ value affects the resulting signature. Implementations often use deterministic $$k$$ values based on the message and the secret key."
           ]
