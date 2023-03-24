@@ -137,6 +137,7 @@ function Section({
           } else if (isSection(contentItem)) {
             return (
               <Section
+                key={index}
                 section={contentItem}
                 depth={depth + 1}
                 sectionRefs={sectionRefs}
@@ -216,8 +217,13 @@ function PostRenderer(post: Post) {
       </Head>
       <h1 style={{ textAlign: "center" }}>{post.post_title}</h1>
       {TableOfContentsRenderer(toc, sectionRefs)}
-      {post.sections.map((section) => (
-        <Section section={section} depth={0} sectionRefs={sectionRefs} />
+      {post.sections.map((section, index) => (
+        <Section
+          key={index}
+          section={section}
+          depth={0}
+          sectionRefs={sectionRefs}
+        />
       ))}
     </div>
   );
