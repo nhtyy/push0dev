@@ -4,13 +4,13 @@ export default function IntroText() {
   return (
     <div className="intro-text">
       <h1>nuhhtyy.xyz</h1>
-      <Link href="/" className={"hover-blue"}>
+      <Link href="/" className={"hover-red"}>
         home
       </Link>
-      <Link href="/about" className={"hover-blue"}>
+      <Link href="/about" className={"hover-red"}>
         about
       </Link>
-      <Link href="/contact" className={"hover-blue"}>
+      <Link href="/contact" className={"hover-red"}>
         contact
       </Link>
     </div>

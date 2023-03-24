@@ -10,7 +10,7 @@ export default function Head() {
           key={title}
           href={url}
           style={{ padding: ".5vw" }}
-          className={"hover-blue"}
+          className={"hover-red"}
         >
           {title}
         </a>

@@ -107,7 +107,7 @@ function Section({
           textDecoration: "underline",
           cursor: "pointer",
         }}
-        className={"hover-blue"}
+        className={"hover-red"}
         onClick={toggleCollapse}
         ref={sectionRef}
       >
@@ -172,7 +172,7 @@ function TableOfContentsRenderer(
                 textDecoration: "underline",
                 cursor: "pointer",
               }}
-              className="hover-blue"
+              className="hover-red"
             >
               {section.title}
             </a>
@@ -186,7 +186,7 @@ function TableOfContentsRenderer(
                         textDecoration: "underline",
                         cursor: "pointer",
                       }}
-                      className="hover-blue"
+                      className="hover-red"
                     >
                       {subsection}
                     </a>

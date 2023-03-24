@@ -54,17 +54,16 @@ body {
 }
 
 .about {
-  margin-top: 1vh;
   text-align: left;
   margin-left: auto;
   margin-right: auto;
-  padding-left: 5vw;
+  width: 60%;
 }
 
-.hover-blue:hover {
+.hover-red:hover {
   /* a nice */
-  color: #0d6efd;
-  /* color: #ff0000; */
+  /* color: #0d6efd; */
+  color: #ff0000;
 }
 
 a {
