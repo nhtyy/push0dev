@@ -45,7 +45,13 @@ export default function Page(props: { post: Post }) {
   return PostRenderer(props.post);
 }
 
-function ContentItem({ content, depth }: { content: string; depth: number }) {
+function SectionContent({
+  content,
+  depth,
+}: {
+  content: string;
+  depth: number;
+}) {
   const [renderedContent, setRenderedContent] = useState("");
 
   useEffect(() => {
@@ -75,11 +81,15 @@ function ContentItem({ content, depth }: { content: string; depth: number }) {
   );
 }
 
-function renderSection(
-  section: Section,
-  depth: number = 0,
-  sectionRefs: { [key: string]: any }
-) {
+function Section({
+  section,
+  depth,
+  sectionRefs,
+}: {
+  section: Section;
+  depth: number;
+  sectionRefs: { [key: string]: any };
+}) {
   const sectionRef = useRef(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
   sectionRefs[section.title] = sectionRef;
@@ -114,7 +124,7 @@ function renderSection(
         {section.content.map((contentItem, index) => {
           if (typeof contentItem === "string") {
             return (
-              <ContentItem key={index} content={contentItem} depth={depth} />
+              <SectionContent key={index} content={contentItem} depth={depth} />
             );
           } else if (isImage(contentItem)) {
             return (
@@ -125,7 +135,13 @@ function renderSection(
               />
             );
           } else if (isSection(contentItem)) {
-            return renderSection(contentItem, depth + 1, sectionRefs);
+            return (
+              <Section
+                section={contentItem}
+                depth={depth + 1}
+                sectionRefs={sectionRefs}
+              />
+            );
           } else {
             console.log("Section Rendering Error: Unknown content item type");
             return null;
@@ -200,7 +216,9 @@ function PostRenderer(post: Post) {
       </Head>
       <h1 style={{ textAlign: "center" }}>{post.post_title}</h1>
       {TableOfContentsRenderer(toc, sectionRefs)}
-      {post.sections.map((section) => renderSection(section, 0, sectionRefs))}
+      {post.sections.map((section) => (
+        <Section section={section} depth={0} sectionRefs={sectionRefs} />
+      ))}
     </div>
   );
 }
