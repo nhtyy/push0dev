@@ -5,7 +5,7 @@
     {
       "title": "Introduction",
       "content": [
-        "Elliptic curve cryptography (ECC) has become a popular choice for secure communication due to its compact key sizes and efficient operations. Please note, im not a mathematician or a cryptographer in practice, if you see something wrong, please let me know :)"
+        "Elliptic curve cryptography (ECC) has become a popular choice for secure communication due to its compact key sizes and efficient operations. Please note, im not a mathematician or a cryptographer in practice, if you see something wrong, please let me know"
       ]
     },
     {
@@ -22,6 +22,21 @@
         "- Additive Inverse: For any point $$A = (a_1, a_2)$$ on the curve, its additive inverse $$-A$$ is the point that satisfies the equation $$A + (-A) = \\theta$$. The additive inverse can be found as $$-A = (a_1, -a_2)$$. In the context of the finite field $$F$$, this means that $$-A = (a_1, p - a_2)$$.",
         {
           "url": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/ECClines.svg/2880px-ECClines.svg.png"
+        },
+        {
+          "title": "1.1 Point Addition Formula",
+          "content": [
+            "You can find the interscetion of the curve and the line through $$P$$ and $$Q$$ by setting the equation of the line that runs through these points points equal to the curve:",
+            "- $$P + Q = -R$$ defintion of point addition, P, Q, and R all sit on the line",
+            "- $$(x_P , y_P) + (x_Q , y_Q) = (x_R , -y_R)$$",
+            "- $$(mX + z)^2 = X^3 + aX + b$$",
+            "- $$X^3 + aX + b - (mX + z)^2 = 0$$, we know",
+            "- $$X^3 - m^2X^2 + z(2mX + z) + aX + b = 0$$ is divisble by",
+            "- $$(X - x_P)(X - x_Q)(X - x_R) = 0$$",
+            "but instead you can use Vietas first formula we know the sum of the roots is equal to the negative quotient of the 3rd-degree term $$t = 1$$ and 2nd degree term $$b$$. $$-(b / t)$$, here its equal to $$-m^2$$",
+            "- $$x_R = m^2 - x_P - x_Q$$",
+            "- Solve for $$y_R$$, and compute the additive inverse of the y-coordinate and thats your sum"
+          ]
         }
       ]
     },
@@ -75,7 +90,7 @@
     {
       "title": "Section 3: Public Key Recovery in Smart Contracts",
       "content": [
-        "The public key recovery process in ECDSA can sometimes yield multiple results. Ethereums uses a recovery id in its implementation in order to correctly identify the public key.",
+        "The public key recovery process in ECDSA can sometimes yield multiple results. ecerecover uses a recovery id (recid) in its implementation in order to correctly identify the public key.",
         {
           "title": "3.1: Public Key Recovery Algorithm",
           "content": [
@@ -86,11 +101,11 @@
             "Compute $$X = r^{-1}(sR - eG)$$, where $$e$$ is the message hash."
           ]
         },
-        "Ethereum smart contracts use the public key recovery feature to efficiently verify transactions without storing the public key in the transaction data. By including a recovery id byte in the signature tuple, Ethereum can identify the correct point to use during the recovery process and quickly narrow down the possible addresses.",
+        "Ethereum smart contracts use the public key recovery feature to efficiently verify transactions without storing the public key in the transaction data. By including a recovery id byte in the signature tuple, we can identify the correct point to use during the recovery process and quickly narrow down the possible addresses.",
         {
           "title": "3.2: On Implementing the Public Key Recovery Algorithm",
           "content": [
-            "Without a recovery id value, like the one used in Ethereum's $$\\sigma' = (r, s, v)$$, or further communication, it is only possible to narrow down the possible addresses to a limited number. To recover $$R$$, you can plug $$r$$ from the signature into the curve equation. Keep in mind the following:",
+            "Without a recovery id value, like the one used in Ethereum $$\\sigma' = (r, s, v)$$, or further communication, it is only possible to narrow down the possible addresses to a limited number. To recover $$R$$, you can plug $$r$$ from the signature into the curve equation. Keep in mind the following:",
             "$$r$$ is the x-coordinate of $$x_R \\in (x_R, y_R) = kG \\mod n$$ from the signature generation.",
             "There's a chance the actual $$x_R > n$$ because the x-coordinates come from $$\\mathbb{F}$$ and $$p > n$$. Implementations use custom recid values to identify which point they're using.",
             "In general, you need to compute $$h + 1 \\geq t \\geq 1$$ unique points, not including a points additive inverse, on the curve if you don't have a recid.",

@@ -2,11 +2,6 @@ body {
   background-color: aliceblue;
 }
 
-.twitter-logo {
-  height: 50px;
-  width: 45px;
-}
-
 .intro-text {
   text-align: center;
   justify-content: center;
@@ -22,14 +17,15 @@ body {
   margin: 0;
 }
 
-.github-logo {
-  height: 50px;
-}
-
 .header-links {
   position: absolute;
   top: 3vh;
   right: 5vw;
+}
+
+.header-links > a {
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
 }
 
 .content {
@@ -55,6 +51,16 @@ body {
 
   .about {
     width: 80%;
+  }
+
+  .intro-text > a {
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
+  }
+
+  .header-links > a {
+    padding-left: 1.5vw;
+    padding-right: 1.5vw;
   }
 }
 

@@ -75,6 +75,7 @@ function SectionContent({
       style={{
         textAlign: "left",
         marginLeft: (depth + 1).toString() + "rem",
+        fontSize: "large",
       }}
       dangerouslySetInnerHTML={{ __html: renderedContent }}
     />
@@ -171,6 +172,7 @@ function TableOfContentsRenderer(
               style={{
                 textDecoration: "underline",
                 cursor: "pointer",
+                fontSize: "large",
               }}
               className="hover-red"
             >
@@ -185,6 +187,7 @@ function TableOfContentsRenderer(
                       style={{
                         textDecoration: "underline",
                         cursor: "pointer",
+                        fontSize: "large",
                       }}
                       className="hover-red"
                     >
