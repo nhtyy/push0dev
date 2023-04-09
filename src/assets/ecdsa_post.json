@@ -33,7 +33,7 @@
             "- $$X^3 + aX + b - (mX + z)^2 = 0$$, we know",
             "- $$X^3 - m^2X^2 + z(2mX + z) + aX + b = 0$$ is divisble by",
             "- $$(X - x_P)(X - x_Q)(X - x_R) = 0$$",
-            "but instead you can use Vietas first formula we know the sum of the roots is equal to the negative quotient of the 3rd-degree term $$t = 1$$ and 2nd degree term $$b$$. $$-(b / t)$$, here its equal to $$-m^2$$",
+            "- but instead you can use Vietas first formula we know the sum of the roots is equal to the negative quotient of the 3rd-degree term $$t = 1$$ and 2nd degree term $$b$$. $$-(b / t)$$, here its equal to $$-m^2$$",
             "- $$x_R = m^2 - x_P - x_Q$$",
             "- Solve for $$y_R$$, and compute the additive inverse of the y-coordinate and thats your sum"
           ]

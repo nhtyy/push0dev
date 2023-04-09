@@ -75,7 +75,6 @@ function SectionContent({
       style={{
         textAlign: "left",
         marginLeft: (depth + 1).toString() + "rem",
-        fontSize: "large",
       }}
       dangerouslySetInnerHTML={{ __html: renderedContent }}
     />
