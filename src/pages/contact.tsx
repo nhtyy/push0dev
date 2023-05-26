@@ -1,14 +1,13 @@
 export default function Contact() {
   return (
     <p>
-      doing something cool?{" "}
       <a
-        href="mailto:mail@nuhhtyy.xyz"
+        href="mailto:mail@ad8.dev"
         className="hover-red"
         style={{ fontSize: "large" }}
       >
         {" "}
-        mail@nuhhtyy.xyz
+        mail@ad8.dev
       </a>
     </p>
   );

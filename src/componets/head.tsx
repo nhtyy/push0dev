@@ -1,7 +1,6 @@
 export default function Head() {
   const head_links: { title: string; url: string }[] = [
-    { title: "twitter", url: "https://twitter.com/nuhhtyy" },
-    { title: "github", url: "https://github.com/nuhhtyy" },
+    { title: "github", url: "https://github.com/nhtyy" },
   ];
   return (
     <div className="header-links">
