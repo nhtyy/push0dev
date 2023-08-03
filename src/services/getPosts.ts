@@ -1,9 +1,16 @@
-import ECDSAPost from "../assets/ecdsa_post.json";
 import { Post } from "../pages/posts/[post]";
+import { read } from "to-vfile";
 
 // todo: fetch from mongo db
 export const _getPosts = async () => {
-  return [] as Post[];
+  let ecdsa_content = (await read("src/assets/ecdsa.md")).toString();
+  return [
+    {
+      post_title: "ECDSA",
+      slug: "ecdsa",
+      content: ecdsa_content,
+    },
+  ] as Post[];
 };
 
 export async function getPosts(): Promise<Map<string, Post>> {

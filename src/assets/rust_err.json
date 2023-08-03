@@ -1,0 +1,40 @@
+{
+  "post_title": "A Succint Intro to Rust Error Handling",
+  "slug": "rust_errs",
+  "sections": [
+    {
+      "title": "",
+      "content": [
+        "I am going to assume you're already vaguely familiar with friendly error handling crates like `Eyre` or `Anyhow` (both of which are very useful in their own way) which can be created from any type `T: Error`. Another useful tool is the `?` operator",
+        "```rust \n let x = result?; \n ```",
+        "which is the same as",
+        "```rust \n match result {\n    Ok(val) => val,\n    Err(err) => return err\n } \n ```",
+        "To get straight to the point, the reason you dont want to go around just using `anyhow::Result<T>` everywhere is becasue you lose the ability to explicity handle certian error variants."
+      ]
+    },
+    {
+      "title": "An Example",
+      "content": [
+        "To give a concrete example lets look at a function that calls an http api, searlizes the data it gets and returns it using `anyhow::Result<T>`",
+        "```rust \n async fn try_get_data() -> anyhow::Result<Data> { \n    let resp = reqwest::get(\"https://api.example.com/data\").await?; \n    let data = resp.json::<Data>().await?; \n    Ok(data) \n } \n ```",
+        "in this case, both of these errors are actually the same type (`reqwest::Error`), but lets imagine they werent. So you could think we have a `ClientError`, and a `ParseError`, but since you turned them both into an `anyhow::Error` consumers of this function can no longer explicity handle each case!",
+        "For instance, lets say we wanted to retry the request if we get a `ClientError::Timeout` but not if we get a `ParseError::InvalidJson`. With just any `anyhow::Result`, we dont have actually have a way to do this!",
+        {
+          "title": "A differnt approach",
+          "content": [
+            "Instead, we can actually 'pass' these errors through to the consumer so they can choose how to handle each variant (or not)",
+            "```rust \n struct ApiClientError { \n      ClientError(reqwest::Error), \n      ParseError(ParseError) \n  } \n ``` "
+          ]
+        }
+      ]
+    },
+    {
+      "title": "",
+      "content": ["", ""]
+    },
+    {
+      "title": "Why is Eyre and Anyhow useful",
+      "content": ["", ""]
+    }
+  ]
+}
