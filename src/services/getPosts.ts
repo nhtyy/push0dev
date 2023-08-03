@@ -3,7 +3,7 @@ import { Post } from "../pages/posts/[post]";
 
 // todo: fetch from mongo db
 export const _getPosts = async () => {
-  return [ECDSAPost] as Post[];
+  return [] as Post[];
 };
 
 export async function getPosts(): Promise<Map<string, Post>> {
