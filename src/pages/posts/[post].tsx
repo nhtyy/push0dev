@@ -11,6 +11,18 @@ import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
 import { unified } from "unified";
+import rehypePrettyCode from "rehype-pretty-code";
+import remarkGfm from "remark-gfm";
+import { JsxElement } from "typescript";
+import { setCDN } from "shiki";
+
+function isImage(content: any): content is Image {
+  return (content as Image).url !== undefined;
+}
+
+function isSection(content: any): content is Section {
+  return (content as Section).title !== undefined;
+}
 
 type Image = {
   url: string;
@@ -21,18 +33,20 @@ type Section = {
   content: (string | Section | Image)[];
 };
 
-function isImage(content: any): content is Image {
-  return (content as Image).url !== undefined;
-}
-
-function isSection(content: any): content is Section {
-  return (content as Section).title !== undefined;
-}
-
 export type Post = {
   post_title: string;
   slug: string;
   sections: Section[];
+};
+
+type RenderedSection = {
+  title: string;
+  content: JsxElement[];
+};
+
+type RenderedPost = {
+  post_title: string;
+  slug: string;
 };
 
 type TableOfContents = {
@@ -54,6 +68,7 @@ function SectionContent({
   depth: number;
 }) {
   const [renderedContent, setRenderedContent] = useState("");
+  setCDN("/");
 
   useEffect(() => {
     const processContent = async () => {
@@ -64,11 +79,16 @@ function SectionContent({
         .use(rehypeKatex)
         .use(rehypeStringify)
         .use(remarkImages)
+        .use(remarkGfm)
+        .use(rehypePrettyCode, {
+          theme: "github-dark-dimmed",
+          keepBackground: true,
+        })
         .process(content);
       setRenderedContent(result.toString());
     };
 
-    processContent().catch(console.error);
+    processContent().catch(console.log);
   }, [content]);
 
   return (
@@ -210,14 +230,6 @@ function PostRenderer(post: Post) {
   let sectionRefs = {};
   return (
     <div style={{ paddingBottom: "10rem" }}>
-      <Head>
-        <link
-          rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
-          integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
-          crossOrigin="anonymous"
-        />
-      </Head>
       <h1 style={{ textAlign: "center" }}>{post.post_title}</h1>
       {TableOfContentsRenderer(toc, sectionRefs)}
       {post.sections.map((section, index) => (
@@ -266,6 +278,7 @@ export async function getServerSideProps(context: any) {
   const posts = await getPosts();
   const slug = context.params.post;
   const maybe_post = posts.get(slug);
+
   return maybe_post === undefined
     ? { notFound: true }
     : { props: { post: maybe_post } };
