@@ -3,7 +3,7 @@ import { read } from "to-vfile";
 
 // todo: fetch from mongo db
 export const _getPosts = async () => {
-  let ecdsa_content = (await read("src/assets/ecdsa.md")).toString();
+  let ecdsa_content = (await read("public/ecdsa.md")).toString();
   return [
     {
       post_title: "ECDSA",
