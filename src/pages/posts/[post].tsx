@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import { useRef } from "react";
 import { getPosts } from "@/services/getPosts";
 import remarkImages from "remark-images";
 import remarkMath from "remark-math";
@@ -10,7 +8,6 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
-import { setCDN } from "shiki";
 
 export type Post = {
   post_title: string;
@@ -23,36 +20,12 @@ export default function Page(props: { post: Post }) {
 }
 
 function ContentRenderer({ content }: { content: string }) {
-  const [renderedContent, setRenderedContent] = useState("");
-  setCDN("/");
-
-  useEffect(() => {
-    const processContent = async () => {
-      const result = await unified()
-        .use(remarkParse)
-        .use(remarkMath)
-        .use(remarkRehype)
-        .use(rehypeKatex)
-        .use(rehypeStringify)
-        .use(remarkImages)
-        .use(remarkGfm)
-        .use(rehypePrettyCode, {
-          theme: "github-dark-dimmed",
-          keepBackground: true,
-        })
-        .process(content);
-      setRenderedContent(result.toString());
-    };
-
-    processContent().catch(console.log);
-  }, [content]);
-
   return (
     <div
       style={{
         textAlign: "left",
       }}
-      dangerouslySetInnerHTML={{ __html: renderedContent }}
+      dangerouslySetInnerHTML={{ __html: content }}
     />
   );
 }
@@ -71,7 +44,33 @@ export async function getServerSideProps(context: any) {
   const slug = context.params.post;
   const maybe_post = posts.get(slug);
 
-  return maybe_post === undefined
-    ? { notFound: true }
-    : { props: { post: maybe_post } };
+  if (maybe_post != undefined) {
+    const result = await unified()
+      .use(remarkParse)
+      .use(remarkMath)
+      .use(remarkRehype)
+      .use(rehypeKatex)
+      .use(rehypeStringify)
+      .use(remarkImages)
+      .use(remarkGfm)
+      .use(rehypePrettyCode, {
+        theme: "github-dark-dimmed",
+        keepBackground: true,
+      })
+      .process(maybe_post.content);
+
+    return {
+      props: {
+        post: {
+          post_title: maybe_post.post_title,
+          slug: maybe_post.slug,
+          content: result.toString(),
+        },
+      },
+    };
+  } else {
+    return {
+      notFound: true,
+    };
+  }
 }
