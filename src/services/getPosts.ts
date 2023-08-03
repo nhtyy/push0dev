@@ -1,16 +1,14 @@
-// import ECDSAPost from "../assets/ecdsa_post.json";
-// import RustErrs from "../assets/rust_err.json";
 import { Post } from "../pages/posts/[post]";
 import { read } from "to-vfile";
 
 // todo: fetch from mongo db
 export const _getPosts = async () => {
-  let testmd_content = (await read("src/assets/testmd.md")).toString();
+  let ecdsa_content = (await read("src/assets/ecdsa.md")).toString();
   return [
     {
-      post_title: "testmd",
-      slug: "testmd",
-      content: testmd_content,
+      post_title: "ECDSA",
+      slug: "ecdsa",
+      content: ecdsa_content,
     },
   ] as Post[];
 };
