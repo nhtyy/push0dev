@@ -1,9 +1,10 @@
 import ECDSAPost from "../assets/ecdsa_post.json";
+import RustErrs from "../assets/rust_err.json";
 import { Post } from "../pages/posts/[post]";
 
 // todo: fetch from mongo db
 export const _getPosts = async () => {
-  return [ECDSAPost] as Post[];
+  return [ECDSAPost, RustErrs] as Post[];
 };
 
 export async function getPosts(): Promise<Map<string, Post>> {

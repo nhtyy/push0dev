@@ -1,9 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRef } from "react";
 import { getPosts } from "@/services/getPosts";
-import { remark } from "remark";
-import Head from "next/head";
-import html from "remark-html";
 import remarkImages from "remark-images";
 import remarkMath from "remark-math";
 import rehypeKatex from "rehype-katex";
@@ -13,7 +10,6 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
-import { JsxElement } from "typescript";
 import { setCDN } from "shiki";
 
 function isImage(content: any): content is Image {
@@ -37,16 +33,6 @@ export type Post = {
   post_title: string;
   slug: string;
   sections: Section[];
-};
-
-type RenderedSection = {
-  title: string;
-  content: JsxElement[];
-};
-
-type RenderedPost = {
-  post_title: string;
-  slug: string;
 };
 
 type TableOfContents = {
@@ -125,6 +111,7 @@ function Section({
         style={{
           textAlign: "left",
           marginLeft: depth.toString() + "rem",
+          marginBottom: "0",
           textDecoration: "underline",
           cursor: "pointer",
         }}
