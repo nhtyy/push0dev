@@ -5,7 +5,9 @@
     {
       "title": "Introduction",
       "content": [
-        "Info Dump Below!! \n\n Elliptic curve cryptography (ECC) has become a popular choice for secure communication due to its compact key sizes and efficient operations. Please note, im not a mathematician or a cryptographer in practice, if you see something wrong, please let me know"
+        "Info Dump Below!! ",
+        "`let x = 2`",
+        "Elliptic curve cryptography (ECC) has become a popular choice for secure communication due to its compact key sizes and efficient operations. Please note, im not a mathematician or a cryptographer in practice, if you see something wrong, please let me know"
       ]
     },
     {

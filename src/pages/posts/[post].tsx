@@ -10,6 +10,7 @@ import rehypeKatex from "rehype-katex";
 import remarkRehype from "remark-rehype";
 import rehypeStringify from "rehype-stringify";
 import remarkParse from "remark-parse";
+import { unified } from "unified";
 
 type Image = {
   url: string;
@@ -56,7 +57,7 @@ function SectionContent({
 
   useEffect(() => {
     const processContent = async () => {
-      const result = await remark()
+      const result = await unified()
         .use(remarkParse)
         .use(remarkMath)
         .use(remarkRehype)
