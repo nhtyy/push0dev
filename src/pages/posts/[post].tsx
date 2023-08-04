@@ -8,6 +8,7 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
+import { setCDN } from "shiki";
 
 export type Post = {
   post_title: string;
@@ -43,6 +44,8 @@ export async function getServerSideProps(context: any) {
   const posts = await getPosts();
   const slug = context.params.post;
   const maybe_post = posts.get(slug);
+
+  setCDN("/");
 
   if (maybe_post != undefined) {
     const result = await unified()
