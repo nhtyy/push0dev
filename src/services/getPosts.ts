@@ -1,10 +1,12 @@
 import { Post } from "../pages/posts/[post]";
-import { read } from "to-vfile";
+import { readFileSync } from "fs";
+import path from "path";
 
 // todo: fetch from mongo db
 export const _getPosts = async () => {
-  console.log(process.cwd());
-  let ecdsa_content = (await read("posts/ecdsa.md")).toString();
+  let entry = path.join(process.cwd(), "posts");
+  let ecdsa_content = readFileSync(path.join(entry, "ecdsa.md")).toString();
+
   return [
     {
       post_title: "ECDSA",
