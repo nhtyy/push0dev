@@ -8,7 +8,7 @@ import remarkParse from "remark-parse";
 import { unified } from "unified";
 import rehypePrettyCode from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
-import { setCDN } from "shiki";
+import { getHighlighter, BUNDLED_LANGUAGES, HighlighterOptions } from "shiki";
 
 export type Post = {
   post_title: string;
@@ -45,8 +45,6 @@ export async function getServerSideProps(context: any) {
   const slug = context.params.post;
   const maybe_post = posts.get(slug);
 
-  setCDN("/");
-
   if (maybe_post != undefined) {
     const result = await unified()
       .use(remarkParse)
@@ -59,6 +57,16 @@ export async function getServerSideProps(context: any) {
       .use(rehypePrettyCode, {
         theme: "github-dark-dimmed",
         keepBackground: true,
+        getHighlighter: (opt: HighlighterOptions) =>
+          getHighlighter({
+            ...opt,
+            paths: {
+              themes: "themes/",
+              wasm: "dist/",
+              languages: "languages/",
+            },
+            langs: [...BUNDLED_LANGUAGES],
+          }),
       })
       .process(maybe_post.content);
 
