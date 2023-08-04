@@ -37,7 +37,44 @@ function PostRenderer(title: string, stringified: string) {
   );
 }
 
-// export async function getServerSideProps(_ctx: any) {
+export async function getServerSideProps(_ctx: any) {
+  let _path = path.join(process.cwd(), "posts", "ecdsa.md"); // <-------- change this
+  let content = readFileSync(_path).toString();
+
+  console.error("working path", process.cwd());
+
+  const result = await unified()
+    .use(remarkParse)
+    .use(remarkMath)
+    .use(remarkRehype)
+    .use(rehypeKatex)
+    .use(rehypeStringify)
+    .use(remarkImages)
+    .use(remarkGfm)
+    .use(rehypePrettyCode, {
+      theme: "github-dark-dimmed",
+      keepBackground: true,
+      getHighlighter: (opt: HighlighterOptions) =>
+        getHighlighter({
+          ...opt,
+          paths: {
+            themes: "themes/",
+            wasm: "dist/",
+            languages: "languages/",
+          },
+        }),
+    })
+    .process(content);
+
+  return {
+    props: {
+      title: "ECDSA", // <-------- change this
+      stringified: result.toString(),
+    },
+  };
+}
+
+// export async function getStaticProps() {
 //   let _path = path.join(process.cwd(), "posts", "ecdsa.md"); // <-------- change this
 //   let content = readFileSync(_path).toString();
 
@@ -71,38 +108,3 @@ function PostRenderer(title: string, stringified: string) {
 //     },
 //   };
 // }
-
-export async function getStaticProps() {
-  let _path = path.join(process.cwd(), "posts", "ecdsa.md"); // <-------- change this
-  let content = readFileSync(_path).toString();
-
-  const result = await unified()
-    .use(remarkParse)
-    .use(remarkMath)
-    .use(remarkRehype)
-    .use(rehypeKatex)
-    .use(rehypeStringify)
-    .use(remarkImages)
-    .use(remarkGfm)
-    .use(rehypePrettyCode, {
-      theme: "github-dark-dimmed",
-      keepBackground: true,
-      getHighlighter: (opt: HighlighterOptions) =>
-        getHighlighter({
-          ...opt,
-          paths: {
-            themes: "themes/",
-            wasm: "dist/",
-            languages: "languages/",
-          },
-        }),
-    })
-    .process(content);
-
-  return {
-    props: {
-      title: "ECDSA", // <-------- change this
-      stringified: result.toString(),
-    },
-  };
-}
