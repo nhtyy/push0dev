@@ -11,7 +11,10 @@ import { getHighlighter, HighlighterOptions } from "shiki";
 import path from "path";
 import { readFileSync } from "fs";
 
-export default function ECDSA(props: { title: string; stringified: string }) {
+export default function RustErrors(props: {
+  title: string;
+  stringified: string;
+}) {
   //                        ^^ change this
   const { title, stringified } = props;
   return PostRenderer(title, stringified);
@@ -67,7 +70,7 @@ function PostRenderer(title: string, stringified: string) {
 // }
 
 export async function getStaticProps() {
-  let _path = path.join(process.cwd(), "posts", "ecdsa.md"); // <-------- change this
+  let _path = path.join(process.cwd(), "posts", "rust_errors.md"); // <-------- change this
   let content = readFileSync(_path).toString();
 
   const result = await unified()
@@ -95,7 +98,7 @@ export async function getStaticProps() {
 
   return {
     props: {
-      title: "ECDSA", // <-------- change this
+      title: "A Short Intro to Rust Errors", // <-------- change this
       stringified: result.toString(),
     },
   };

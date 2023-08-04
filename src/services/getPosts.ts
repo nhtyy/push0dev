@@ -1,7 +1,3 @@
-import { readFileSync } from "fs";
-import path from "path";
-
-// todo: fetch from mongo db
 export const _getPosts = async () => {
   return [
     {
@@ -9,7 +5,7 @@ export const _getPosts = async () => {
       slug: "ecdsa",
     },
     {
-      post_title: "A Succint Introduction to Rust Errors",
+      post_title: "A Short Introduction to Rust Errors",
       slug: "rust-errors",
     },
   ];
