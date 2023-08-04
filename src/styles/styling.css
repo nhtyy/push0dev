@@ -39,6 +39,7 @@ body {
 .about {
   word-wrap: break-word;
   font-size: large;
+  margin: auto;
 }
 
 div[data-rehype-pretty-code-fragment] > pre > code {
