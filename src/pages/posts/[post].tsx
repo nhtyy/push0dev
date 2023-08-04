@@ -65,7 +65,6 @@ export async function getServerSideProps(context: any) {
               wasm: "dist/",
               languages: "languages/",
             },
-            langs: [...BUNDLED_LANGUAGES],
           }),
       })
       .process(maybe_post.content);
