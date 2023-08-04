@@ -7,10 +7,10 @@ I am going to assume you're already vaguely familiar with friendly error handlin
 which is the same as,
 
 ```rust
-    let x = match result {
-        Ok(val) => val,
-        Err(err) => return Err(err)
-    }
+let x = match result {
+    Ok(val) => val,
+    Err(err) => return Err(err)
+}
 ```
 
 To get straight to the point, the reason you dont want to go around just using `anyhow::Result<T>{:.token}` everywhere is becasue you lose the ability to explicity handle certian error variants
@@ -20,13 +20,13 @@ To get straight to the point, the reason you dont want to go around just using `
 To give a concrete example lets look at a function that calls an http api, searlizes the data it gets and returns it using `anyhow::Result<T>{:.token}`
 
 ```rust
-    async fn try_get_data() -> anyhow::Result<Data> {
-        let res = reqwest::get("https://api.example.com/data").await?;
+async fn try_get_data() -> anyhow::Result<Data> {
+    let res = reqwest::get("https://api.example.com/data").await?;
 
-        let data = res.json::<Data>()?;
+    let data = res.json::<Data>()?;
 
-        Ok(data)
-    }
+    Ok(data)
+}
 ```
 
 in this case, both of these errors are actually the same type (`reqwest::Error{:.token}`), but lets imagine they werent. So you could think we have a `ClientError{:.token}`, and a `ParseError{:.token}`, but since you turned them both into an `anyhow::Error{:.token}` consumers of this function can no longer explicity handle each case!
@@ -36,46 +36,46 @@ For instance, lets say we wanted to retry the request if we get a `ClientErrort{
 If you think the consumer of your function would want this ability you should allow them to do so by do something like this
 
 ```rust
-    #[derive(Debug)]
-    enum ApiError {
-        Client(ClientError),
-        Parse(ParseError)
+#[derive(Debug)]
+enum ApiError {
+    Client(ClientError),
+    Parse(ParseError)
+}
+
+impl std::error::Error for ApiError {}
+
+/// this is what allows the `?` operator to work
+impl From<ClientError> for ApiError {
+    fn from(err: ClientError) -> ApiError {
+        ApiError::Client(err)
     }
+}
 
-    impl std::error::Error for ApiError {}
-
-    /// this is what allows the `?` operator to work
-    impl From<ClientError> for ApiError {
-        fn from(err: ClientError) -> ApiError {
-            ApiError::Client(err)
-        }
+impl From<ParseError> for ApiError {
+    fn from(err: ParseError) -> ApiError {
+        ApiError::Parse(err)
     }
+}
 
-    impl From<ParseError> for ApiError {
-        fn from(err: ParseError) -> ApiError {
-            ApiError::Parse(err)
-        }
-    }
-
-    impl Display for ApiError {
-        /// ...
-    }
-
+impl Display for ApiError {
     /// ...
-    /// ...
-    /// ...
+}
 
-    /// ...
-    /// ...
-    /// ...
+/// ...
+/// ...
+/// ...
 
-    async fn try_get_data() -> Result<Data, ApiError> {
-        let res = reqwest::get("https://api.example.com/data").await?;
+/// ...
+/// ...
+/// ...
 
-        let data = res.json::<Data>()?;
+async fn try_get_data() -> Result<Data, ApiError> {
+    let res = reqwest::get("https://api.example.com/data").await?;
 
-        Ok(data)
-    }
+    let data = res.json::<Data>()?;
+
+    Ok(data)
+}
 ```
 
 # Why Is It So Verbose?

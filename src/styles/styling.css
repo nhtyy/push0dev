@@ -41,8 +41,37 @@ body {
   font-size: large;
 }
 
-p {
-  font-size: large;
+div[data-rehype-pretty-code-fragment] > pre > code {
+  display: block;
+  overflow-x: auto;
+}
+
+div[data-rehype-pretty-code-fragment] > pre > code {
+  display: block;
+  overflow-x: auto;
+}
+
+div[data-rehype-pretty-code-fragment] > pre > code::-webkit-scrollbar {
+  height: 5px;
+}
+
+div[data-rehype-pretty-code-fragment] > pre > code::-webkit-scrollbar-thumb {
+  background-color: white;
+  height: 5px;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+  background-color: black;
 }
 
 @media (max-width: 767px) {
@@ -82,26 +111,14 @@ a {
   color: black;
 }
 
+a:hover {
+  color: #ff0000;
+}
 /** code blocks **/
 
 code {
   counter-reset: line;
 }
-
-/* code > [data-line]::before {
-  counter-increment: line;
-  content: counter(line);
-
-  display: inline-block;
-  width: 1rem;
-  margin-right: 2rem;
-  text-align: right;
-  color: gray;
-} */
-
-/* code[data-line-numbers-max-digits="2"] > [data-line]::before {
-  width: 2rem;
-} */
 
 pre {
   padding: 1rem;
@@ -110,31 +127,3 @@ pre {
 code[data-language=".token"] {
   background-color: #fcffa4;
 }
-
-/* 
-
-
-code > [data-line]::before {
-  counter-increment: line;
-  content: counter(line);
-
-  display: inline-block;
-  width: 1rem;
-  margin-right: 2rem;
-  text-align: right;
-  color: gray;
-}
-
-code[data-line-numbers-max-digits="2"] > [data-line]::before {
-  width: 2rem;
-}
-
-code[data-line-numbers-max-digits="3"] > [data-line]::before {
-  width: 3rem;
-}
-
-pre {
-  padding: 1rem;
-}
-
-*/
