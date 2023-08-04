@@ -1,10 +1,8 @@
 import { _getPosts } from "@/services/getPosts";
-import { Post } from "./posts/[post]";
 import { PostList } from "@/componets/post_list";
-import Link from "next/link";
 import { LinkList } from "@/componets/link_list";
 
-export default function Home({ posts }: { posts: Post[] }) {
+export default function Home({ posts }: { posts: any }) {
   return (
     <div>
       <h2>Writing</h2>
