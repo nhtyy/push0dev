@@ -1,4 +1,4 @@
-I am going to assume you're already vaguely familiar with friendly error handling crates like `Eyre{:.token}` or `Anyhow{:.token}` which can be created from any type `T: Error{:.token}`. Another useful tool is the `?{:.token}` operator.
+I am going to assume you're already vaguely familiar with friendly error handling crates like [`Eyre{:.token}`](https://docs.rs/eyre/latest/eyre/) or [`Anyhow{:.token}`](https://docs.rs/anyhow/latest/anyhow/) which can be created from any type `T: Error{:.token}`. Another useful tool is the `?{:.token}` operator.
 
 ```rust
     let x = result?;
@@ -36,6 +36,7 @@ For instance, lets say we wanted to retry the request if we get a `ClientErrort{
 If you think the consumer of your function would want this ability you should allow them to do so by do something like this
 
 ```rust
+    #[derive(Debug)]
     enum ApiError {
         Client(ClientError),
         Parse(ParseError)
@@ -56,11 +57,13 @@ If you think the consumer of your function would want this ability you should al
         }
     }
 
-    /// ...
-    /// ...
-    /// ...
+    impl Display for ApiError {
+        /// ...
+    }
 
-    /// theres some other traits you need to satisfy to implemenet error here
+    /// ...
+    /// ...
+    /// ...
 
     /// ...
     /// ...
@@ -74,3 +77,13 @@ If you think the consumer of your function would want this ability you should al
         Ok(data)
     }
 ```
+
+# Why Is It So Verbose?
+
+Luckily there is a fix for that, you can use the [`thiserror{:.token}`](https://docs.rs/thiserror/latest/thiserror/) crate which is useful derive macro whos motto is that its the same as doing it by hand. Specifically it handles the `Display{:.token}`, `Error{:.token}` and `From<T>{:.token}` traits for you.
+
+# When to Use Eyre/Anyhow?
+
+I think the intended use of anyhow is that you should wrap your binaries entry points in a `anyhow::Result<()>{:.token}` (or eyre), this way you can propagate an error message to the top of the stack. And sometimes a function should just either succeed or panic, and this is where `Eyre{:.token}` amd `Anyhow{:.token}` can be useful again.
+
+Also I think ideally nothing would ever panic, instead it just should return a `anyhow::Result<()>{:.token}` that way you dont need to go out of your way to implemenet a panic hook.
