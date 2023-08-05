@@ -28,6 +28,10 @@ body {
   padding-right: 0.5vw;
 }
 
+p {
+  font-size: large;
+}
+
 .content {
   min-height: 100vh;
   width: 60vw;

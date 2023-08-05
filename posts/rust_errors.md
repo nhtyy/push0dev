@@ -1,7 +1,9 @@
-I am going to assume you're already vaguely familiar with friendly error handling crates like [`Eyre{:.token}`](https://docs.rs/eyre/latest/eyre/) or [`Anyhow{:.token}`](https://docs.rs/anyhow/latest/anyhow/) which can be created from any type `T: Error{:.token}`. Another useful tool is the `?{:.token}` operator.
+I am going to assume you're already vaguely familiar with friendly error handling crates like [`Eyre{:.token}`](https://docs.rs/eyre/latest/eyre/) or [`Anyhow{:.token}`](https://docs.rs/anyhow/latest/anyhow/) which can be created from any type `T: Error{:.token}`, and the basics of rust errors (hint: theyre just another type).
+
+A useful tool when dealing with results is the `?{:.token}` operator.
 
 ```rust
-    let x = result?;
+let x = result?;
 ```
 
 which is the same as,
@@ -9,7 +11,7 @@ which is the same as,
 ```rust
 let x = match result {
     Ok(val) => val,
-    Err(err) => return Err(err)
+    Err(err) => return Err(err.into())
 }
 ```
 
@@ -17,7 +19,7 @@ To get straight to the point, the reason you dont want to go around just using `
 
 # Example
 
-To give a concrete example lets look at a function that calls an http api, searlizes the data it gets and returns it using `anyhow::Result<T>{:.token}`
+Lets look at a function that calls an http api, searlizes the data it gets and returns it in an `anyhow::Result<T>{:.token}`
 
 ```rust
 async fn try_get_data() -> anyhow::Result<Data> {
@@ -29,11 +31,11 @@ async fn try_get_data() -> anyhow::Result<Data> {
 }
 ```
 
-in this case, both of these errors are actually the same type (`reqwest::Error{:.token}`), but lets imagine they werent. So you could think we have a `ClientError{:.token}`, and a `ParseError{:.token}`, but since you turned them both into an `anyhow::Error{:.token}` consumers of this function can no longer explicity handle each case!
+in this case, both of these errors are actually the same type (`reqwest::Error{:.token}`), but lets imagine they werent. So you could think we have a `ClientError{:.token}` from the `get{:.token}` method, and a `ParseError{:.token}` from calling `json{:.token}`, but since you turned them both into an `anyhow::Error{:.token}`, consumers of this function can no longer explicity handle each case!
 
 For instance, lets say we wanted to retry the request if we get a `ClientErrort{:.token}` but not if we get a `ParseError{:.token}`. With just any `anyhow::Result{:.token}`, we dont have actually have a way to do this.
 
-If you think the consumer of your function would want this ability you should allow them to do so by do something like this
+If you think the consumer of your function would want this ability you should allow them to do so by doing something like this
 
 ```rust
 #[derive(Debug)]
@@ -84,6 +86,14 @@ Luckily there is a fix for that, you can use the [`thiserror{:.token}`](https://
 
 # When to Use Eyre/Anyhow?
 
-I think the intended use of anyhow is that you should wrap your binaries entry points in a `anyhow::Result<()>{:.token}` (or eyre), this way you can propagate an error message to the top of the stack. And sometimes a function should just either succeed or panic, and this is where `Eyre{:.token}` amd `Anyhow{:.token}` can be useful again.
+I think the intended use of these friendly error handling libs is that you should wrap your binaries entry points in a `anyhow::Result<()>{:.token}` (or eyre), this way you can propagate an error message to the top of the stack.
 
-Also I think ideally nothing would ever panic, instead it just should return a `anyhow::Result<()>{:.token}` that way you dont need to go out of your way to implemenet a panic hook.
+Also I think most things in your crate should never panic instead it just should return a `anyhow::Result<()>{:.token}`, for instance you may have a utility functuon like
+
+```rust
+fn err_if_no_response() -> anyhow::Result<()> {
+    /// ...
+}
+```
+
+that way you dont need to go out of your way to implemenet a panic hook if you want always want nice error messages. Though this doesnt apply to everything, i.e I think it makes sense for a out of bounds `Vec{:.token}` read to panic.

@@ -10,6 +10,9 @@ export default function IntroText() {
       <Link href="/about" className={"hover-red"}>
         about
       </Link>
+      <a href="https://github.com/nhtyy" className={"hover-red"}>
+        github
+      </a>
       <Link href="/contact" className={"hover-red"}>
         contact
       </Link>
