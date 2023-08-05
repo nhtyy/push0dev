@@ -91,7 +91,7 @@ I think the intended use of these friendly error handling libs is that you shoul
 Also I think most things in your crate should never panic instead it just should return a `anyhow::Result<()>{:.token}`, for instance you may have a utility functuon like
 
 ```rust
-fn err_if_no_response() -> anyhow::Result<()> {
+fn conditional_err() -> anyhow::Result<()> {
     /// ...
 }
 ```
