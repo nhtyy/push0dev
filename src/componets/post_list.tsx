@@ -1,16 +1,16 @@
-import { _getPosts } from "@/services/getPosts";
+import { PostRegistry } from "@/services/getPosts";
 import Link from "next/link";
 
-export function PostList({ posts }: { posts: any[] }) {
+export function PostList({ registry }: { registry: PostRegistry }) {
   return (
     <ul style={{ listStyle: "none", paddingLeft: "0" }}>
-      {posts.map((post) => (
+      {Object.keys(registry).map((slug) => (
         <li
-          key={post.post_title}
+          key={registry[slug]}
           style={{ paddingTop: ".5rem", fontSize: "large" }}
         >
-          <Link href={`/posts/${post.slug}`} className={"hover-red"}>
-            {post.post_title}
+          <Link href={`/posts/${slug}`} className={"hover-red"}>
+            {registry[slug]}
           </Link>
         </li>
       ))}

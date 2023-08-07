@@ -1,6 +1,3 @@
-import { _getPosts } from "@/services/getPosts";
-import Link from "next/link";
-
 export function LinkList({
   links,
 }: {

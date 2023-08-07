@@ -1,19 +1,9 @@
-export const _getPosts = async () => {
-  return [
-    {
-      post_title: "ECDSA",
-      slug: "ecdsa",
-    },
-    {
-      post_title: "A Short Introduction to Rust Errors",
-      slug: "rust-errors",
-    },
-  ];
+import Registry from "../../posts/registry.json";
+
+export type PostRegistry = {
+  [slug: string]: string;
 };
 
-// export async function getPosts(): Promise<Map<string, Post>> {
-//   const posts = await _getPosts();
-//   const postsMap = new Map<string, Post>();
-//   posts.forEach((post) => postsMap.set(post.slug, post));
-//   return postsMap;
-// }
+export function posts(): PostRegistry {
+  return Registry;
+}

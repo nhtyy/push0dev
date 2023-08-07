@@ -1,12 +1,12 @@
-import { _getPosts } from "@/services/getPosts";
+import { posts, PostRegistry } from "@/services/getPosts";
 import { PostList } from "@/componets/post_list";
 import { LinkList } from "@/componets/link_list";
 
-export default function Home({ posts }: { posts: any }) {
+export default function Home({ registry }: { registry: PostRegistry }) {
   return (
     <div>
       <h2>Writing</h2>
-      <PostList posts={posts} />
+      <PostList registry={registry} />
       <h2>Open Source Work</h2>
       <LinkList
         links={[
@@ -24,11 +24,11 @@ export default function Home({ posts }: { posts: any }) {
   );
 }
 
-export async function getServerSideProps() {
-  const posts = await _getPosts();
+export async function getStaticProps() {
+  const registry = posts();
   return {
     props: {
-      posts,
+      registry,
     },
   };
 }
