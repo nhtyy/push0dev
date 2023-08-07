@@ -54,15 +54,6 @@ export async function getServerSideProps(_ctx: any) {
     .use(rehypePrettyCode, {
       theme: "github-dark-dimmed",
       keepBackground: true,
-      getHighlighter: (opt: HighlighterOptions) =>
-        getHighlighter({
-          ...opt,
-          paths: {
-            themes: "themes/",
-            wasm: "dist/",
-            languages: "languages/",
-          },
-        }),
     })
     .process(content);
 
