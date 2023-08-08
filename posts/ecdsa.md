@@ -1,6 +1,6 @@
 # Introduction
 
-In this info dump, I will go over step by step what you need to do in order to implement your own version of ECDSA, skipping all actual implementation details, like optimizations and security ahhh
+In this info dump, I will go over step by step what you need to do in order to implement your own version of ECDSA, skipping all actual implementation details, like optimizations and security ahhh. I also provide some well known observations about signature recovery and malleability in the end.
 
 # Basics of Elliptic Curve Cryptography (ECC)
 
@@ -8,9 +8,11 @@ Elliptic Curve Cryptography (ECC) is an approach to public-key cryptography base
 
 An elliptic curve is defined by the following equation over a finite field $$\mathbb{F}$$ with prime order $$p$$: $$y^2 = x^3 + ax + b \mod p$$.
 
+- A finite field is just a set of prime power order with all the usual operations. (add, sub, mul, div)
+
 The points on this curve that satisfy this relation form a group denoted $$E(\mathbb{F_p})$$ with point addition as the group operation.
 
-The points on the curve are of the form $$(x, y)$$, where $$x$$ and $$y$$ are elements of the field $$\mathbb{F}$$. The curve is symmetric with respect to the x-axis because $$y^2$$ means that the curve is reflected over the x-axis.
+The points on the curve are of the form $$(x, y)$$, where $$x$$ and $$y$$ are elements of the field $$\mathbb{F}$$. The curve is symmetric with respect to the x-axis over $$\mathbb{R}$$, but in a finte field you can think of ().
 
 There are a few essential properties and operations associated with elliptic curves:
 
@@ -52,24 +54,17 @@ ECDSA has four main functionalites including key generation: signature generatio
 1. Ensure $$r, s \in \mathbb{Z}_n$$ and $$X \neq \theta$$
 2. Calculate $$u_1 = es^{-1}$$ and $$u_2 = rs^{-1}$$
 3. Check if $$r_v = r$$, where:
-
    1. $$R_v = u_1G + u_2X$$
-
    2. $$R_v = (u_1 + u_2x)G$$
-
    3. $$R_v = (es^{-1} + s^{-1}rx)G$$
-
    4. $$R_v = s^{-1}(e + rx)G$$
-
    5. $$R_v = (k^{-1})^{-1}(e + rx)^{-1}(e + rx)G$$
-
    6. $$R_v = kG = (x_{R_v}, y_{R_v})$$
-
    7. $$r_v = x_{R_v} \mod n$$
 
 # Public Key Recovery
 
-The public key recovery process in ECDSA yields multiple results. ecerecover (the evm precompile) uses a recovery id (recid) in its implementation in order to narrow the search for the public key.
+The public key recovery process in ECDSA yields multiple results. ecrecover (the evm precompile) uses a recovery id (recid) in its implementation in order to narrow the search for the public key.
 
 - ## Algorithm
 
@@ -84,8 +79,14 @@ The public key recovery process in ECDSA yields multiple results. ecerecover (th
 
 - ## Implementation
 
-  Without a recovery id value, like the one used in Ethereum $$\sigma' = (r, s, v)$$, or further communication, it is only possible to narrow down the possible public keys [(addresses)](https://www.geeksforgeeks.org/how-to-create-an-ethereum-wallet-address-from-a-private-key/#) to a limited number. Recovery id's are sometimes used to differentiate between additive inverses, but I believe in ecerecover, your point must have a y value in some range.
+  - ### Recovery Id (recid)
 
-  This is because $$x_R$$ from signature generation is reduced $$ \mod n$$ which is the order of the generator which divides the order of the curve group $$\mathbb{E(F_p)}$$, BUT $$\mathbb{E(F_p)}$$ is of the form $$(x, y) : x, y \in \mathbb{F_p}$$ and $$n < p$$ at least in secp256k1
+    Without a recovery id value, like the one used in Ethereum $$\sigma' = (r, s, v)$$, or further communication, it is only possible to narrow down the possible public keys [(addresses)](https://www.geeksforgeeks.org/how-to-create-an-ethereum-wallet-address-from-a-private-key/#) to a limited number. Additive inverses are easy to find as shown below so recids dont usally cover those.
 
-  In other words, $$r + n$$ may have been the intended curve point $$\iff r + n < p$$, and recids give us a way of expressing that. In general I think the bound is something like $$h + 1 \geq t \geq 1$$ unique points, where $$h$$ is the cofactor of $$n$$ such that $$nh = |E(\mathbb{F})|$$, not including inverses.
+    This is because $$x_R$$ from signature generation is reduced $$ \mod n$$ which is the order of the generator which divides the order of the curve group $$\mathbb{E(F_p)}$$, BUT $$\mathbb{E(F_p)}$$ is of the form $$(x, y) : x, y \in \mathbb{F_p}$$ and $$n < p$$ at least in secp256k1
+
+    In other words, $$r + n$$ may have been the intended curve point if $$ r + n < p$$, and recids give us a way of informing the consumer that. In general I think the bound is something like $$h + 1 \geq t \geq 1$$ unique points, where $$h$$ is the cofactor of $$n$$ such that $$nh = |E(\mathbb{F})|$$, not including inverses.
+
+  - ### Malleability
+
+    **!! Signatures are malleable and should never be used as identifiers !!** This is because as [derp turkey](https://www.derpturkey.com/inherent-malleability-of-ecdsa-signatures/) shows us, $$(r, s)$$ is a valid signature as well as $$(r, n-s)$$ because $$(e-n)G = (x, p-y)$$
