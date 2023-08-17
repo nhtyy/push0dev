@@ -1,6 +1,6 @@
 # Introduction
 
-In this info dump, I will go over step by step what you need to do in order to implement your own version of ECDSA, skipping all actual implementation details, like optimizations and security ahhh. I also provide some well known observations about signature recovery and malleability in the end.
+Here I will go over the primitive steps of implenting ECDSA. This does not include any runtime optimizations and lacks much information about modern best practices when implementing cryptographic protocols! You really shouldn't be implementing anything based off this posts if its not for fun! Also in the end I provide a couple well known observations around using this protocol.
 
 # Basics of Elliptic Curve Cryptography (ECC)
 
