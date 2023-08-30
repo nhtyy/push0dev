@@ -1,6 +1,6 @@
 # Introduction
 
-Here I will go over the primitive steps of implenting ECDSA. This does not include any runtime optimizations and lacks much information about modern best practices when implementing cryptographic protocols! You really shouldn't be implementing anything based off this posts if its not for fun! Also in the end I provide a couple well known observations around using this protocol.
+I expect everything below to be accurate and at the end I include some implmentation details that mostly focus on things that are useful to Ethereum. If you see something wrong, please let me know.
 
 # Basics of Elliptic Curve Cryptography (ECC)
 
