@@ -2,6 +2,10 @@ body {
   background-color: aliceblue;
 }
 
+.homepage-section-header {
+  margin-bottom: 0;
+}
+
 .intro-text {
   text-align: center;
   justify-content: center;
