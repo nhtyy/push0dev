@@ -25,11 +25,11 @@ export default function Home({ registry }: { registry: PostRegistry }) {
         links={[
           {
             title: "Reth: A Rust Ethereum client",
-            url: "https://github.com/nhtyy/uniswapx-sdk-rs",
+            url: "https://github.com/nhtyy/v3-rs",
           },
           {
             title: "Foundry: A solidity testing framework written in rust",
-            url: "https://github.com/nhtyy/v3-rs",
+            url: "https://github.com/foundry-rs/foundry",
           },
         ]}
       />
