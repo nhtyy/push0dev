@@ -20,7 +20,7 @@ export default function Home({ registry }: { registry: PostRegistry }) {
           },
         ]}
       />
-      <h2 className="homepage-section-header">Projects I've Contributed To</h2>
+      <h2 className="homepage-section-header">Projects Ive Contributed To</h2>
       <LinkList
         links={[
           {
