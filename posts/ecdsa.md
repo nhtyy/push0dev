@@ -89,4 +89,4 @@ The public key recovery process in ECDSA yields multiple results. ecrecover (the
 
   - ### Malleability
 
-    **!! Signatures are malleable and should never be used as identifiers !!** This is because as [derp turkey](https://www.derpturkey.com/inherent-malleability-of-ecdsa-signatures/) shows us, $$(r, s)$$ is a valid signature as well as $$(r, n-s)$$ because $$(e-n)G = (x, p-y)$$
+    **!! Signatures are malleable and should never be used as identifiers !!** This is because as [derp turkey](https://www.derpturkey.com/inherent-malleability-of-ecdsa-signatures/) shows us, $$(r, s)$$ is a valid signature as well as $$(r, n-s)$$ because if $$eG = (x, y)$$ then $$(e-n)G = (x, p-y)$$
