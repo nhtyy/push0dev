@@ -8,6 +8,7 @@ export default function About() {
         style={{ backgroundColor: "black", opacity: "100", height: "1px" }}
       ></hr> */}
       <h4 style={{ fontWeight: "normal" }}>
+        i write rust and solidity occasionally, counts on fingers
         <br />
       </h4>
     </div>

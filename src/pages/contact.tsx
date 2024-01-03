@@ -7,7 +7,7 @@ export default function Contact() {
         style={{ fontSize: "large" }}
       >
         {" "}
-        n@umbral.group
+        n@push0.dev
       </a>
     </p>
   );
