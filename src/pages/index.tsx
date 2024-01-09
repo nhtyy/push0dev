@@ -12,6 +12,11 @@ export default function Home({ registry }: { registry: PostRegistry }) {
       <LinkList
         links={[
           {
+            title: "Alongside Finance",
+            description: "An on chain crypto index protocol",
+            url: "https://alongside.xyz",
+          },
+          {
             title: "uniswapx-sdk-rs",
             description: "uniswapx api types, client and server written in rust",
             url: "https://github.com/nhtyy/uniswapx-sdk-rs",
