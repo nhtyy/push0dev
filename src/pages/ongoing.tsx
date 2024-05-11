@@ -14,7 +14,7 @@ export default function Contact() {
         {
           item: "myriad",
           link: "https://myriad.info",
-          description: "on chain market making, techincal lead",
+          description: "on chain market making, technical lead",
         },
         {
           item: "v3-rs refactor",
