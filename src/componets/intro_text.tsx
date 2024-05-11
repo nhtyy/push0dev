@@ -7,9 +7,6 @@ export default function IntroText() {
       <Link href="/" className={"hover-red"}>
         home
       </Link>
-      <Link href="/about" className={"hover-red"}>
-        about
-      </Link>
       <Link href="/ongoing" className={"hover-red"}>
         ongoing
       </Link>
