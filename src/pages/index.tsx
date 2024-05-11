@@ -40,6 +40,11 @@ export default function Home({ registry }: { registry: PostRegistry }) {
             url: "https://github.com/fleek-network/lightning/commits?author=nhtyy",
           },
           {
+            title: "Sentiment V2",
+            description: "soon! on chain leverage lending and borrowing",
+            url: "https://www.sentiment.xyz/",
+          },
+          {
             title: "Alongside Finance",
             description: "An on chain crypto index protocol",
             url: "https://alongside.xyz",
