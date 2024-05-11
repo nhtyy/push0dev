@@ -12,7 +12,7 @@ export default function Contact() {
           description: "decentralized edge network, core network dev",
         },
         {
-          item: "mryiad.info",
+          item: "myriad",
           link: "https://myriad.info",
           description: "on chain market making, techincal lead",
         },
