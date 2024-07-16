@@ -16,14 +16,6 @@ export default function Contact() {
           link: "https://myriad.info",
           description: "on chain market making, technical lead",
         },
-        {
-          item: "v3-rs refactor",
-          link: "https://github.com/nhtyy/v3-rs",
-          description: [
-            "v3-rs was one of the very first things i ever wrote in rust and its not great",
-            "After using it internally many times, I have enough data to make a solid attempt at publishing it as a crate",
-          ],
-        },
       ])}
     </div>
   );
