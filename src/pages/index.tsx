@@ -7,9 +7,9 @@ export default function Home({ registry }: { registry: PostRegistry }) {
     <div style={{justifyContent: "center"}}>
       <h2 className="homepage-section-header">About</h2>
       <div style={{ width: "40vw", textAlign: "center", justifyContent: "center", margin: "auto" }}>
-        <h3 style={{fontWeight: "normal"}}>
+        <p style={{fontWeight: "normal", fontSize: "2vh"}}>
           mostly rust, math, ethereum, oss
-        </h3>
+        </p>
       </div>
       <h2 className="homepage-section-header">Contributions</h2>
       <LinkList
