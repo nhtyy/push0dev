@@ -35,11 +35,6 @@ export default function Home({ registry }: { registry: PostRegistry }) {
           //   url: "https://github.com/foundry-rs/foundry/commits?author=nhtyy",
           // },
           {
-            title: "Lightning",
-            description: "a L1 Blockchain for hosting edge services",
-            url: "https://github.com/fleek-network/lightning/commits?author=nhtyy",
-          },
-          {
             title: "Sentiment V2",
             description: "soon! on chain leverage lending and borrowing",
             url: "https://www.sentiment.xyz/",
@@ -48,6 +43,11 @@ export default function Home({ registry }: { registry: PostRegistry }) {
             title: "Alongside Finance",
             description: "An on chain crypto index protocol",
             url: "https://alongside.xyz",
+          },
+          {
+            title: "Lightning",
+            description: "a L1 Blockchain for hosting edge services",
+            url: "https://github.com/fleek-network/lightning/commits?author=nhtyy",
           },
         ]}
       />

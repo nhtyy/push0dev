@@ -7,11 +7,6 @@ export default function Contact() {
 
       {makeList([
         {
-          item: "fleek",
-          link: "https://fleek.xyz",
-          description: "decentralized edge network, core network dev",
-        },
-        {
           item: "myriad",
           link: "https://myriad.info",
           description: "on chain market making, technical lead",
