@@ -8,7 +8,7 @@ export default function Home({ registry }: { registry: PostRegistry }) {
       <h2 className="homepage-section-header">About</h2>
       <div style={{ width: "40vw", textAlign: "center", justifyContent: "center", margin: "auto" }}>
         <p style={{fontWeight: "normal", fontSize: "2vh"}}>
-          mostly rust, math, ethereum, oss
+          mostly rust, math, ethereum, and open source
         </p>
       </div>
       <h2 className="homepage-section-header">Contributions</h2>
@@ -47,7 +47,7 @@ export default function Home({ registry }: { registry: PostRegistry }) {
           {
             title: "Lightning",
             description: "a L1 Blockchain for hosting edge services",
-            url: "https://github.com/fleek-network/lightning/commits?author=nhtyy",
+            url: "https://github.com/fleek-network/lightning",
           },
         ]}
       />
