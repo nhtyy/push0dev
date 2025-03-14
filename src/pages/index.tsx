@@ -1,7 +1,5 @@
 import { posts, PostRegistry } from "@/services/getPosts";
-import { PostList } from "@/componets/post_list";
 import { LinkList } from "@/componets/link_list";
-import Link from "next/link";
 
 export default function Home({ registry }: { registry: PostRegistry }) {
   return (
