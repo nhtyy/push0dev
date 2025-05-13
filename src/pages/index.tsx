@@ -15,7 +15,7 @@ export default function Home({ registry }: { registry: PostRegistry }) {
         links={[
           {
             title: "SP1 zkVM",
-            description: "A blazing fast zero-knowledge virtual machine, written in Rust",
+            description: "A blazingly fast zero-knowledge virtual machine",
             url: "https://github.com/succinctlabs/sp1",
           },
           {
