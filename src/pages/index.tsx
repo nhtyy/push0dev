@@ -31,7 +31,7 @@ export default function Home({ registry }: { registry: PostRegistry }) {
           },
           {
             title: "Alongside Finance",
-            description: "At Alongside, I spearheaded design and development of both the V1 and V2 smart contract protocols. Besides implementation, my work and research focused on novel rebalancing designs and the security of the overall system.",
+            description: "At Alongside, I spearheaded design and development of both the V1 and V2 smart contract protocols. Besides implementation, my work and research focused on novel rebalancing mechanisms and security.",
             url: "https://alongside.xyz",
             position: "Smart Contract Engineer",
             start: "Feb 2021",
