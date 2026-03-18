@@ -39,7 +39,7 @@ export default function Home({ registry }: { registry: PostRegistry }) {
           },
           {
             title: "Sentiment",
-            description: "During my engagment with Sentiment, I helped build and design the V2 smart contract protocol on Hyperliquid. Most of my work involed implementation of the core risk engine, which was in charge of the solvency of the entire system, securing over $40M in user funds.",
+            description: "During my engagment with Sentiment, I helped build and design the V2 smart contract protocol on Hyperliquid. Most of my work involved implementation of the core risk engine, which was in charge of the solvency of the entire system, securing over $40M in user funds.",
             position: "Smart Contract Engineer",
             url: "https://github.com/sentimentxyz/protocol-v2",
           },
